@@ -5,6 +5,12 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
+import { Route, Switch } from 'react-router-dom';
+import SignIn from './screen/SignIn';
+import SignUp from './screen/SignUp';
+import Products from './screen/Products';
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +29,7 @@ function App() {
 
   const fetchUser = async () => {
     let response = await axios.get('http://localhost:5000/users/all');
-    setUsers(response);
+    setUsers(response.data);
   }
 
   useEffect(()=>{
@@ -34,6 +40,14 @@ function App() {
     <>
       <CssBaseline />
       <Nav />
+
+      <Switch>
+      <Route path='/signin' component={SignIn} />
+      <Route path='/signup' component={SignUp} />
+      <Route path='/products' component={Products} />
+
+      </Switch>
+
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
           <Typography variant="h1">user</Typography>
@@ -42,9 +56,9 @@ function App() {
             users.length!==0 &&
             users.map(user=>{
               return(<>
-              <Typography variant="h3">name: { user.name }  </Typography>
-              <Typography variant="h3">email: { user.email }  </Typography>
-              <Typography variant="h3">city: { user.city }  </Typography>
+              <Typography variant="h3">name:{ user.name }  </Typography>
+              <Typography variant="h3">email:{ user.email }  </Typography>
+              <Typography variant="h3">city:{ user.city }  </Typography>
               </>)
             })
           }
