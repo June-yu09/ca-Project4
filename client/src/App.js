@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Nav from './components/Nav';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import axios from 'axios';
 import { Route, Switch } from 'react-router-dom';
 import SignIn from './screen/SignIn';
 import SignUp from './screen/SignUp';
 import Products from './screen/Products';
+import axios from 'axios';
+
+// import { UserProvider, useUsers } from './context/userContext';
 
 
 
@@ -25,15 +27,14 @@ const useStyles = makeStyles((theme) => ({
 function App() {
 
   const classes = useStyles();
+  // const users = useUsers();
   let [users, setUsers] = useState([]);
-
-  const fetchUser = async () => {
-    let response = await axios.get('http://localhost:5000/users/all');
-    setUsers(response.data);
-  }
-
+    const fetchUser = async () => {
+        let response = await axios.get('http://localhost:5000/users/all');
+        setUsers(response.data);
+      }
   useEffect(()=>{
-    fetchUser();
+      fetchUser();
   },[])
 
   return (
@@ -51,9 +52,9 @@ function App() {
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
           <Typography variant="h1">user</Typography>
-
+          {/* <UserProvider> */}
           {
-            users.length!==0 &&
+            users &&
             users.map(user=>{
               return(<>
               <Typography variant="h3">name:{ user.name }  </Typography>
@@ -62,6 +63,7 @@ function App() {
               </>)
             })
           }
+          {/* </UserProvider> */}
 
         </div>
       </Container>

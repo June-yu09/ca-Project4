@@ -16,5 +16,20 @@ router.get('/all', (req,res)=>{
     })
 } )
 
+router.get('/:id', (req,res)=>{
+    const userId = req.params.id;
+    usersModel
+    .findById(userId)
+    .populate('products')
+    .exec((err,user)=>{
+        if(err){
+            res.send(err);
+        }else{
+            console.log(user.products);
+            res.send(user);
+        }
+    })
+})
 
 module.exports = router;
+
