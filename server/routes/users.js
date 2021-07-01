@@ -1,13 +1,10 @@
 const express = require('express');
-const usersModel = require('../model/usersModel');
+const User = require('../model/usersModel');
 const router = express.Router();
 
-router.get('/test', (req, res)=>{
-    res.send({ msg : 'test route' });
-})
 
 router.get('/all', (req,res)=>{
-    usersModel.find({}, (err,users)=>{
+    User.find({}, (err,users)=>{
         if(err){
             res.send(err);
         }else{
@@ -16,9 +13,30 @@ router.get('/all', (req,res)=>{
     })
 } )
 
-router.get('/:id', (req,res)=>{
+
+router.post('/', async (req,res)=>{
+    console.log(req.body, 'this is requested data');
+    const newUser = await new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        city: req.body.city
+    });
+
+    newUser
+    .save()
+    .then(result=>{
+        res.send(result);
+    })
+    .catch(err=>{
+        res.status(500).send('failed to create a user')
+    })
+
+})
+
+router.get('/detail/:id', (req,res)=>{
     const userId = req.params.id;
-    usersModel
+    User
     .findById(userId)
     .populate('products')
     .exec((err,user)=>{
@@ -31,5 +49,5 @@ router.get('/:id', (req,res)=>{
     })
 })
 
-module.exports = router;
 
+module.exports = router;

@@ -25,5 +25,7 @@ app.listen(port, ()=>{
     console.log('Server is running ' + port + 'PORT');
 })
 
+
 app.use('/users', require('./routes/users'));
 app.use('/products', require('./routes/products'));
+

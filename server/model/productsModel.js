@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const productSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+const productSchema = new Schema({
     title: {
         type: String,
         required: true,
@@ -15,5 +15,6 @@ const productSchema = new mongoose.Schema({
         required: true,
     },
     uploader: { type: mongoose.Schema.Types.ObjectId , ref: 'User'}
-})
+}, { timestamps: true })
+
 module.exports = mongoose.model('Product', productSchema );

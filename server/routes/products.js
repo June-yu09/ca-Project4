@@ -1,10 +1,11 @@
 const express = require('express');
-const productsModel = require('../model/productsModel');
+const Product = require('../model/productsModel');
 const router = express.Router();
 
 
 router.get('/all', (req,res)=>{
-    productsModel.find({}, (err,products)=>{
+    Product
+    .find({}, (err,products)=>{
         if(err){
             res.send(err);
         }else{
@@ -13,9 +14,10 @@ router.get('/all', (req,res)=>{
     })
 } )
 
-router.get('/:id', (req,res)=>{
+router.get('/detail/:id', (req,res)=>{
     const productId = req.params.id;
-    productsModel.findById(productId, (err, product)=>{
+    Product
+    .findById(productId, (err, product)=>{
         if(err){
             res.send(err);
         }else{
@@ -24,5 +26,23 @@ router.get('/:id', (req,res)=>{
         }
     })
 } )
+
+router.post('/', (req,res)=>{
+    const { title, desc, price, uploader } = req.body;
+    const newProduct = new Product({
+        title: title,
+        desc: desc,
+        price: price,
+        uploader: uploader
+    })
+    newProduct
+    .save()
+    .then(result=>{
+        res.send(result);
+    })
+    .catch(err=>{
+        res.send(err);
+    })
+})
 
 module.exports = router;

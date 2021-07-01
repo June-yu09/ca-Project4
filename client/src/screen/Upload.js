@@ -29,13 +29,12 @@ const useStyles = (theme) => ({
     },
   })
 
-class SignUp extends Component {
+class Upload extends Component {
     state = {
-        name:'',
-        email:'',
-        password:'',
-        confirmPassword:'',
-        city:''
+        title:'',
+        desc:'',
+        price:'',
+        uploader:''
     }
     handleChange = e => {
         this.setState({
@@ -44,16 +43,12 @@ class SignUp extends Component {
     }
     handleSubmit = e =>{
         e.preventDefault();
-        if(this.state.password !== this.state.confirmPassword){
-            alert('Please put password correctly')
-        }else{
-            // this.props.signUpEvent(this.state);
-            axios.post('http://localhost:5000/users', this.state)
-            .then(response=>{
-                console.log(response);
-            })
-            .catch(err=>console.log(err))
-        }
+        axios.post('http://localhost:5000/products', this.state)
+        .then(response=>{
+            console.log(response);
+        })
+        .catch(err=>console.log(err))
+    
     }
 
 
@@ -66,7 +61,7 @@ class SignUp extends Component {
                 <div className={classes.paper}>
 
                 <Typography component="h1" variant="h5">
-                                Sign up
+                                Upload
                 </Typography>
                     
                         <form onSubmit={this.handleSubmit} className={classes.form} noValidate autoComplete="off">
@@ -77,10 +72,10 @@ class SignUp extends Component {
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    id="name"
-                                    label="Name"
-                                    name="name"
-                                    autoComplete="name"
+                                    id="title"
+                                    label="Title"
+                                    name="title"
+                                    autoComplete="title"
                                 />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -89,10 +84,12 @@ class SignUp extends Component {
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    id="email"
-                                    label="Email"
-                                    name="email"
-                                    autoComplete="email"
+                                    multiline
+                                    rows={4}
+                                    id="desc"
+                                    label="Desc"
+                                    name="desc"
+                                    autoComplete="desc"
                                 />
                                 </Grid>
 
@@ -102,38 +99,14 @@ class SignUp extends Component {
                                         variant="outlined"
                                         required
                                         fullWidth
-                                        name="password"
-                                        label="Password"
-                                        type="password"
-                                        id="password"
-                                        autoComplete="current-password"
+                                        name="price"
+                                        label="Price"
+                                        type="price"
+                                        id="price"
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                    onChange={this.handleChange}
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-                                        name="password"
-                                        label="confirmPassword"
-                                        type="password"
-                                        id="confirmPassword"
-                                        autoComplete="current-password"
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                <TextField
-                                onChange={this.handleChange}
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="city"
-                                    label="City"
-                                    name="city"
-                                    autoComplete="city"
-                                />
-                                </Grid>
+                                
+                                
                             </Grid>
                             <Button
                                 type="submit"
@@ -142,16 +115,8 @@ class SignUp extends Component {
                                 color="primary"
                                 className={classes.submit}
                             >
-                                Sign Up
+                                Submit
                             </Button>
-                            <Grid container justify="flex-end">
-                                <Grid item>
-                                    Already have an account? <NavLink exact to='/signin'>Sign In</NavLink>
-                                </Grid>
-                            </Grid>
-
-
-                            
 
                         </form>
     
@@ -162,4 +127,4 @@ class SignUp extends Component {
     }
 }
 
-export default withStyles(useStyles)(SignUp);
+export default withStyles(useStyles)(Upload);

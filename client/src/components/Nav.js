@@ -37,6 +37,7 @@ const Nav = () => {
           </Typography>
           <Button color="inherit" onClick={()=>{ history.push('/signin') }}>SignIn</Button>
           <Button color="inherit" onClick={()=>{ history.push('/signup') }}>SignUp</Button>
+          <Button color="inherit" onClick={()=>{ history.push('/products/upload') }}>👉🏻</Button>
 
         </Toolbar>
       </AppBar>

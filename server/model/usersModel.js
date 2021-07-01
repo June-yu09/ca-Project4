@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const userSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+const userSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -15,5 +15,7 @@ const userSchema = new mongoose.Schema({
     password: String,
     city: String,
     products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
+}, {
+    collection: 'users'
 })
 module.exports = mongoose.model('User', userSchema );

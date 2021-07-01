@@ -8,6 +8,7 @@ import { Route, Switch } from 'react-router-dom';
 import SignIn from './screen/SignIn';
 import SignUp from './screen/SignUp';
 import Products from './screen/Products';
+import Upload from './screen/Upload';
 import axios from 'axios';
 
 // import { UserProvider, useUsers } from './context/userContext';
@@ -45,7 +46,8 @@ function App() {
       <Switch>
       <Route path='/signin' component={SignIn} />
       <Route path='/signup' component={SignUp} />
-      <Route path='/products' component={Products} />
+      <Route exact path='/products' component={Products} />
+      <Route exact path='/products/upload' component={Upload} />
 
       </Switch>
 
