@@ -3,7 +3,6 @@ import Nav from './components/Nav';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import { Route, Switch } from 'react-router-dom';
 import SignIn from './screen/SignIn';
 import SignUp from './screen/SignUp';
@@ -53,9 +52,8 @@ function App() {
 
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
-          <Typography variant="h1">user</Typography>
           {/* <UserProvider> */}
-          {
+          {/* {
             users &&
             users.map(user=>{
               return(<>
@@ -64,7 +62,7 @@ function App() {
               <Typography variant="h3">city:{ user.city }  </Typography>
               </>)
             })
-          }
+          } */}
           {/* </UserProvider> */}
 
         </div>

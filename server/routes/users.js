@@ -2,6 +2,9 @@ const express = require('express');
 const User = require('../model/usersModel');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
+const key = require('../keys').secretKey;
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
 
 const router = express.Router();
 
@@ -16,6 +19,18 @@ router.get('/all', (req,res)=>{
         }
     })
 } )
+
+router.get('/test', passport.authenticate('jwt', { session: false }), (req,res)=>{
+    User
+    .findById(req.user.id, (err, user)=>{
+        if (err){
+            res.status(404).json({ error: 'User does not exist' })
+        } else {
+            console.log(user.email);
+            res.send(user);
+        }
+    })
+})
 
 
 router.post('/'
@@ -34,8 +49,7 @@ router.post('/'
         }
         const pw = req.body.password;
         const hashed = await bcrypt.hash(pw, 10)
-        
-  
+
         const newUser = new User({
             name: req.body.name,
             email: req.body.email,
@@ -54,6 +68,45 @@ router.post('/'
         })
     }
 )
+
+router.post('/login', async (req,res)=>{
+    
+    const hashed = await bcrypt.hash(req.body.password, 10)
+
+    User
+    .findOne({
+        email: req.body.email
+    }, (err,user)=>{
+        if(err){
+            res.sendStatus(401);
+        }else{
+            bcrypt.compare(user.password, hashed, (err,result)=>{
+                if(err){
+                    res.sendStatus(401);
+                }else{
+                    jwt.sign({
+                        sub: user.id,
+                        email: user.email,
+                        name: user.name
+                    }, key, {expiresIn: '1h'}, (err,token)=>{
+                        if(err){
+                            res.json({success: false})
+                        }else{
+                            res.json({
+                                success: true,
+                                token: token
+                            })
+                        }
+                        
+                    })
+                }
+               
+            })
+            
+        }
+    })
+})
+
 
 router.get('/detail/:id', (req,res)=>{
     const userId = req.params.id;

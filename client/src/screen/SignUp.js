@@ -47,7 +47,6 @@ class SignUp extends Component {
         if(this.state.password !== this.state.confirmPassword){
             alert('Please put password correctly')
         }else{
-            // this.props.signUpEvent(this.state);
             axios.post('http://localhost:5000/users', this.state)
             .then(response=>{
                 console.log(response);
