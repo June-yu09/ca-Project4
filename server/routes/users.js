@@ -20,7 +20,7 @@ router.get('/all', (req,res)=>{
     })
 } )
 
-router.get('/test', passport.authenticate('jwt', { session: false }), (req,res)=>{
+router.get('/profile', passport.authenticate('jwt', { session: false }), (req,res)=>{
     User
     .findById(req.user.id, (err, user)=>{
         if (err){

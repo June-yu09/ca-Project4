@@ -52,10 +52,12 @@ class SignIn extends Component {
         e.preventDefault();
         axios.post('http://localhost:5000/users/login', this.state)
         .then(res=>{
-            console.log(res)
+            console.log(res);
+            localStorage.setItem('token', res.data.token);
+            console.log('local storaged token is ',localStorage.getItem('token'));
         })
         .then(()=>{
-            //have to redirect to login page
+            //have to redirect to  page
         })
         .catch(err=>console.log(err))
     }

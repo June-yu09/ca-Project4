@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -24,6 +24,13 @@ const useStyles = makeStyles((theme) => ({
 const Nav = () => {
   const classes = useStyles();
   const history = useHistory();
+  const [showLogout, setShowLogout] = useState(false);
+
+  useEffect(()=>{
+    if (localStorage.getItem('token')){
+      setShowLogout(true);
+    }
+  }, [showLogout]);
 
   return (
     <div className={classes.root}>
@@ -38,6 +45,22 @@ const Nav = () => {
           <Button color="inherit" onClick={()=>{ history.push('/signin') }}>SignIn</Button>
           <Button color="inherit" onClick={()=>{ history.push('/signup') }}>SignUp</Button>
           <Button color="inherit" onClick={()=>{ history.push('/products/upload') }}>👉🏻</Button>
+          <Button color="inherit" onClick={()=>{ history.push('/profile') }}>👤</Button>
+          {
+            showLogout &&
+            <>
+            <Button color="inherit" onClick={()=>
+            { 
+              setShowLogout(false);
+              localStorage.setItem('token','');
+            
+            }}>Logout</Button>
+
+            </>
+
+            
+          }
+
 
         </Toolbar>
       </AppBar>
