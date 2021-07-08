@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useHistory } from 'react-router-dom';
 import { useToken, useTokenUpdate } from '../context/tokenContext.js';
+import { useUser } from '../context/userContext.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,13 +27,13 @@ const Nav = () => {
   const history = useHistory();
   const myToken = useToken();
   const updateToken = useTokenUpdate();
-
+  const user = useUser();
   
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="success" aria-label="menu">
+          <IconButton edge="start" className={classes.menuButton} color="primary" aria-label="menu">
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title} onClick={()=>{ history.push('/') }}>
@@ -45,7 +46,11 @@ const Nav = () => {
             <Button color="inherit" onClick={()=>{ history.push('/signup') }}>SignUp</Button>
             </>
           }
-          
+
+          {
+            ( user && myToken ) &&
+            <Typography variant="subtitle2">Welcome {user.name}</Typography>
+          }
           
           {
             myToken &&
@@ -53,11 +58,9 @@ const Nav = () => {
             <Button color="inherit" onClick={()=>{ history.push('/products/upload') }}>⬆️</Button>
             <Button color="inherit" onClick={()=>{ history.push('/profile') }}>👤</Button>
             <Button color="inherit" onClick={()=>{updateToken('')}}>Logout</Button>
-
             </>
-
-            
           }
+          
 
 
         </Toolbar>
