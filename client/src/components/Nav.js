@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useHistory } from 'react-router-dom';
-
+import { useToken, useTokenUpdate } from '../context/tokenContext.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,14 +24,10 @@ const useStyles = makeStyles((theme) => ({
 const Nav = () => {
   const classes = useStyles();
   const history = useHistory();
-  const [showLogout, setShowLogout] = useState(false);
+  const myToken = useToken();
+  const updateToken = useTokenUpdate();
 
-  useEffect(()=>{
-    if (localStorage.getItem('token')){
-      setShowLogout(true);
-    }
-  }, [showLogout]);
-
+  
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -40,21 +36,23 @@ const Nav = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title} onClick={()=>{ history.push('/') }}>
-            🍓fraise Market
+            🍓berry Market
           </Typography>
-          <Button color="inherit" onClick={()=>{ history.push('/signin') }}>SignIn</Button>
-          <Button color="inherit" onClick={()=>{ history.push('/signup') }}>SignUp</Button>
-          <Button color="inherit" onClick={()=>{ history.push('/products/upload') }}>👉🏻</Button>
-          <Button color="inherit" onClick={()=>{ history.push('/profile') }}>👤</Button>
           {
-            showLogout &&
+            !myToken &&
             <>
-            <Button color="inherit" onClick={()=>
-            { 
-              setShowLogout(false);
-              localStorage.setItem('token','');
-            
-            }}>Logout</Button>
+            <Button color="inherit" onClick={()=>{ history.push('/signin') }}>SignIn</Button>
+            <Button color="inherit" onClick={()=>{ history.push('/signup') }}>SignUp</Button>
+            </>
+          }
+          
+          
+          {
+            myToken &&
+            <>
+            <Button color="inherit" onClick={()=>{ history.push('/products/upload') }}>⬆️</Button>
+            <Button color="inherit" onClick={()=>{ history.push('/profile') }}>👤</Button>
+            <Button color="inherit" onClick={()=>{updateToken('')}}>Logout</Button>
 
             </>
 

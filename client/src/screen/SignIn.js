@@ -11,6 +11,7 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import { tokenUpdateContext } from '../context/tokenContext';
 
 
 
@@ -48,43 +49,65 @@ class SignIn extends Component {
         })
 
     }
-    handleSubmit = e =>{
-        e.preventDefault();
-        axios.post('http://localhost:5000/users/login', this.state)
-        .then(res=>{
-            console.log(res);
-            localStorage.setItem('token', res.data.token);
-            console.log('local storaged token is ',localStorage.getItem('token'));
-        })
-        .then(()=>{
-            //have to redirect to  page
-        })
-        .catch(err=>console.log(err))
-    }
+    // handleSubmit = e =>{
+    //     e.preventDefault();
+    //     axios.post('http://localhost:5000/users/login', this.state)
+    //     .then(res=>{
+    //         console.log(res);
+    //         localStorage.setItem('token', res.data.token);
+    //     })
+    //     .then(()=>{
+    //         //have to redirect to  page
+    //     })
+    //     .catch(err=>console.log(err))
+    // }
 
 
     render (){
         const { classes } = this.props;
         
         return (
-        <Container component='main' maxWidth="xs">
-            <CssBaseline />
-            <div className={classes.paper}>
-                <Typography component="h1" variant="h5">Sign in</Typography>
+        <tokenUpdateContext.Consumer>
+            {
+                tokenUpdate=>{
+                    return(
+                        <Container component='main' maxWidth="xs">
+                            <CssBaseline />
+                            <div className={classes.paper}>
+                                <Typography component="h1" variant="h5">Sign in</Typography>
 
-                    <form onSubmit={this.handleSubmit} className={classes.form} noValidate autoComplete="off">
-                    <TextField onChange={this.handleChange} variant="outlined" margin="normal" required fullWidth id="email" label="Email" name="email" autoComplete="email" autoFocus />
-                    <TextField onChange={this.handleChange} variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" />
-                    <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>Sign In</Button>
-                    <Grid container>
-                        
-                        <Grid item>
-                            You don't have an account? <NavLink exact to='/register'>Register</NavLink>
-                        </Grid>
-                    </Grid>
-                    </form>
-            </div>
-        </Container>
+                                    <form onSubmit={(e)=>{
+                                        
+                                        e.preventDefault();
+                                        axios.post('http://localhost:5000/users/login', this.state)
+                                        .then(res=>{
+                                            console.log(res);
+                                            tokenUpdate(res.data.token)
+                                            // localStorage.setItem('token', res.data.token);
+                                        })
+                                        .then(()=>{
+                                            //have to redirect to  page
+                                        })
+                                        .catch(err=>console.log(err))
+                                        
+                                    }} className={classes.form} noValidate autoComplete="off">
+                                    <TextField onChange={this.handleChange} variant="outlined" margin="normal" required fullWidth id="email" label="Email" name="email" autoComplete="email" autoFocus />
+                                    <TextField onChange={this.handleChange} variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" />
+                                    <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>Sign In</Button>
+                                    <Grid container>
+                                        
+                                        <Grid item>
+                                            You don't have an account? <NavLink exact to='/register'>Register</NavLink>
+                                        </Grid>
+                                    </Grid>
+                                    </form>
+                            </div>
+                        </Container>
+                    )
+                }
+            }
+        
+        </tokenUpdateContext.Consumer>
     )
     }
 }

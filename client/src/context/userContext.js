@@ -1,35 +1,36 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 
-const userContext = React.createContext();
+export let userContext = React.createContext();
 
-
-export function useUsers(){
-    const context = useContext(userContext)
-    if(context){
-        return context;
-    }
-    
+export const useUser = ()=>{
+    return useContext(userContext);
 }
 
-export function UserProvider ({ children }) {
-    let [users, setUsers] = useState([]);
-    const fetchUser = async () => {
-        let response = await axios.get('http://localhost:5000/users/all');
-        setUsers(response.data);
-      }
-    useEffect(()=>{
-        fetchUser();
-    },[])
-    if(users){
-        return (
-            <>
-                <userContext.Provider value={{users}}>
-                { children }
-                </userContext.Provider>
-            </>
+
+const UserProvider = ({ children }) => {
+    const [user, setUser] = useState();
+
+    if(localStorage.getItem('token')){
+        const token = "bearer " + localStorage.getItem('token');
+        axios.get("http://localhost:5000/users/profile",
+        { headers: { "Authorization" : token } }
         )
+        .then(response => {
+            setUser(response.data)
+        })
     }
     
-}
 
+    return (
+        <div>
+           
+                <userContext.Provider value={ user }>
+                    {children}
+                </userContext.Provider>
+            
+            
+        </div>
+    )
+}
+export default UserProvider;

@@ -14,6 +14,10 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { useUser } from '../context/userContext';
+import { useToken } from '../context/tokenContext';
+
+
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -56,26 +60,26 @@ const useStyles = makeStyles((theme) => ({
 
 const Products = ()=>{
     let classes = useStyles();
-    let isLoading = true;
-    const [userData, setUserData] = useState();
-    const token = "bearer " + localStorage.getItem('token');
+    // const [userData, setUserData] = useState();
+    // const token = "bearer " + localStorage.getItem('token');
     
 
-    const fetchData = ()=>{
-        axios.get("http://localhost:5000/users/profile", {
-            headers: { "Authorization": token }
-        })
-        .then(response=>{
-            console.log(response);
-            setUserData(response.data);
-        })
+    // const fetchData = ()=>{
+    //     axios.get("http://localhost:5000/users/profile", {
+    //         headers: { "Authorization": token }
+    //     })
+    //     .then(response=>{
+    //         console.log(response);
+    //         setUserData(response.data);
+    //     })
         
-    }
-    useEffect(()=>{
-        fetchData();
-    },[]);
-
-
+    // }
+    // useEffect(()=>{
+    //     fetchData();
+    // },[]);
+    const user = useUser();
+    // const { name, email, city } = user;
+    const token = useToken();
 
     return (<>
         <CssBaseline />
@@ -93,7 +97,7 @@ const Products = ()=>{
                     </>:
                     <> */}
                     {
-                    userData &&
+                    ( token && user ) &&
                     <>
                     <Grid item xs={12} sm={6} md={4}>
 
@@ -102,9 +106,9 @@ const Products = ()=>{
 
 
                             <CardContent className={classes.cardContent}>
-                                <Typography gutterBottom variant="h5" component="h4">name: {userData.name} </Typography>
-                                <Typography gutterBottom variant="h5" component="h4">email: {userData.email} </Typography>
-                                <Typography gutterBottom variant="h5" component="h4">city: {userData.city} </Typography>
+                                <Typography gutterBottom variant="h5" component="h4">name: {user.name} </Typography>
+                                <Typography gutterBottom variant="h5" component="h4">email: {user.email} </Typography>
+                                <Typography gutterBottom variant="h5" component="h4">city: {user.city} </Typography>
 
                             </CardContent>
 
