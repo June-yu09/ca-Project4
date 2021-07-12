@@ -15,6 +15,9 @@ const productSchema = new Schema({
         required: true,
     },
     uploader: { type: mongoose.Schema.Types.ObjectId , ref: 'User'}
-}, { timestamps: true })
+}, { 
+    timestamps: true,
+    collection: 'products'
+    })
 
 module.exports = mongoose.model('Product', productSchema );

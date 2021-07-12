@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react'
 
-export let tokenContext = React.createContext();
-export let tokenUpdateContext = React.createContext();
+export let TokenContext = React.createContext();
+export let TokenUpdateContext = React.createContext();
 
 export const useToken = ()=>{
-    return useContext(tokenContext);
+    return useContext(TokenContext);
 }
 
 export const useTokenUpdate = ()=>{
-    return useContext(tokenUpdateContext);
+    return useContext(TokenUpdateContext);
 }
 
 function TokenProvider({ children }) {
@@ -20,11 +20,11 @@ function TokenProvider({ children }) {
 
     return (
         <div>
-            <tokenContext.Provider value={ token }>
-                <tokenUpdateContext.Provider value={ tokenUpdate }>
+            <TokenContext.Provider value={ token }>
+                <TokenUpdateContext.Provider value={ tokenUpdate }>
                     {children}
-                </tokenUpdateContext.Provider>
-            </tokenContext.Provider>
+                </TokenUpdateContext.Provider>
+            </TokenContext.Provider>
         </div>
     )
 }

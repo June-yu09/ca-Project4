@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from "@material-ui/core/styles";
 import { NavLink, Redirect } from 'react-router-dom';
 import axios from 'axios';
+import { UserContext } from '../context/userContext.js';
 
 
 
@@ -30,99 +31,114 @@ const useStyles = (theme) => ({
   })
 
 class Upload extends Component {
+
     state = {
         title:'',
         desc:'',
         price:'',
-        uploader:''
+        uploader: '',
     }
     handleChange = e => {
         this.setState({
             [e.target.id] : e.target.value,
         })
     }
-    handleSubmit = e =>{
-        e.preventDefault();
-        axios.post('http://localhost:5000/products', this.state)
-        .then(response=>{
-            console.log(response);
-        })
-        .catch(err=>console.log(err))
     
-    }
-
 
     render (){
         const { classes } = this.props;
         
         return (
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <div className={classes.paper}>
+            <UserContext.Consumer>
+                {
+                    user => {
+                        return(
+                            <Container component="main" maxWidth="xs">
+                            <CssBaseline />
+                            {
+                                user && 
+                                <div className={classes.paper}>
 
-                <Typography component="h1" variant="h5">
-                                Upload
-                </Typography>
+                                <Typography component="h1" variant="h5">
+                                                Upload
+                                </Typography>
+                                    
+                                        <form onSubmit={
+                                            e =>{
+                                                e.preventDefault();
+                                                axios.post('http://localhost:5000/products', {...this.state, uploader: user._id})
+                                                .then(response=>{
+                                                    console.log(response);
+                                                    console.log('user?:', user);
+                                                })
+                                                .catch(err=>console.log(err))
+                                            
+                                            }
+                                        } className={classes.form} noValidate autoComplete="off">
+                                        <Grid container spacing={2}>
+                                                <Grid item xs={12}>
+                                                <TextField
+                                                onChange={this.handleChange}
+                                                    variant="outlined"
+                                                    required
+                                                    fullWidth
+                                                    id="title"
+                                                    label="Title"
+                                                    name="title"
+                                                    autoComplete="title"
+                                                />
+                                                </Grid>
+                                                <Grid item xs={12}>
+                                                <TextField
+                                                onChange={this.handleChange}
+                                                    variant="outlined"
+                                                    required
+                                                    fullWidth
+                                                    multiline
+                                                    rows={4}
+                                                    id="desc"
+                                                    label="Desc"
+                                                    name="desc"
+                                                    autoComplete="desc"
+                                                />
+                                                </Grid>
+
+                                                <Grid item xs={12}>
+                                                    <TextField
+                                                    onChange={this.handleChange}
+                                                        variant="outlined"
+                                                        required
+                                                        fullWidth
+                                                        name="price"
+                                                        label="Price"
+                                                        type="price"
+                                                        id="price"
+                                                    />
+                                                </Grid>
+                                                
+                                                
+                                            </Grid>
+                                            <Button
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                color="primary"
+                                                className={classes.submit}
+                                            >
+                                                Submit
+                                            </Button>
+
+                                        </form>
                     
-                        <form onSubmit={this.handleSubmit} className={classes.form} noValidate autoComplete="off">
-                        <Grid container spacing={2}>
-                                <Grid item xs={12}>
-                                <TextField
-                                onChange={this.handleChange}
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="title"
-                                    label="Title"
-                                    name="title"
-                                    autoComplete="title"
-                                />
-                                </Grid>
-                                <Grid item xs={12}>
-                                <TextField
-                                onChange={this.handleChange}
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    multiline
-                                    rows={4}
-                                    id="desc"
-                                    label="Desc"
-                                    name="desc"
-                                    autoComplete="desc"
-                                />
-                                </Grid>
+                                </div>
+                            }
 
-                                <Grid item xs={12}>
-                                    <TextField
-                                    onChange={this.handleChange}
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-                                        name="price"
-                                        label="Price"
-                                        type="price"
-                                        id="price"
-                                    />
-                                </Grid>
-                                
-                                
-                            </Grid>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            >
-                                Submit
-                            </Button>
-
-                        </form>
-    
-            </div>
-
-            </Container>
+                            </Container>
+                        )
+                    }
+                }
+            
+            </UserContext.Consumer>
         )
     }
 }

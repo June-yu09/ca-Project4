@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -14,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { useUser } from '../context/userContext';
+import { useUser, useUserProducts } from '../context/userContext';
 import { useToken } from '../context/tokenContext';
 
 
@@ -58,28 +57,12 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 
-const Products = ()=>{
+const Profile = ()=>{
     let classes = useStyles();
-    // const [userData, setUserData] = useState();
-    // const token = "bearer " + localStorage.getItem('token');
     
-
-    // const fetchData = ()=>{
-    //     axios.get("http://localhost:5000/users/profile", {
-    //         headers: { "Authorization": token }
-    //     })
-    //     .then(response=>{
-    //         console.log(response);
-    //         setUserData(response.data);
-    //     })
-        
-    // }
-    // useEffect(()=>{
-    //     fetchData();
-    // },[]);
     const user = useUser();
-    // const { name, email, city } = user;
     const token = useToken();
+    const products = useUserProducts();
 
     return (<>
         <CssBaseline />
@@ -87,17 +70,9 @@ const Products = ()=>{
             
             <Container className={classes.cardGrid} maxWidth="md">
                 <Grid container spacing={4}>
-                    {/* {
-                    isLoading?
-                    <>
-                    <div className={classes.circle}>
-                    <CircularProgress />
-                    </div>
-                    <Typography component='h1' variant='h1'> Loading </Typography>
-                    </>:
-                    <> */}
+                    
                     {
-                    ( token && user ) &&
+                    ( token && user ) ?
                     <>
                     <Grid item xs={12} sm={6} md={4}>
 
@@ -106,19 +81,51 @@ const Products = ()=>{
 
 
                             <CardContent className={classes.cardContent}>
-                                <Typography gutterBottom variant="h5" component="h4">name: {user.name} </Typography>
-                                <Typography gutterBottom variant="h5" component="h4">email: {user.email} </Typography>
-                                <Typography gutterBottom variant="h5" component="h4">city: {user.city} </Typography>
+                                <Typography gutterBottom variant="h5" component="h5">User </Typography>
+
+                                <Typography gutterBottom variant="h5" component="h3">name: {user.name} </Typography>
+                                <Typography gutterBottom variant="h5" component="h3">email: {user.email} </Typography>
+                                <Typography gutterBottom variant="h5" component="h3">city: {user.city} </Typography>
 
                             </CardContent>
 
                             
                         </Card>
                     </Grid>
+                    </>:
+                    <>
+                    <div className={classes.circle}>
+                    <CircularProgress />
+                    </div>
+                    <Typography component='h1' variant='h4'> Please LogIn </Typography>
                     </>
                     }
-                    {/* </>
-                    } */}
+                    {
+                        (token && user && products) ?
+                        <Card className={classes.card}>
+
+                        <CardContent className={classes.cardContent}>
+                            <Typography gutterBottom variant="h5" component="h5">Uploaded Products</Typography>
+                            {
+                                products.map(product=>{
+                                    return(
+                                        <>
+                                        <Typography gutterBottom variant="h5" component="h3">title: {product.title} </Typography>
+                                        <Typography gutterBottom variant="h5" component="h3">price: {product.price} $ </Typography>
+                                        <Typography gutterBottom variant="h5" component="h3">description: {product.desc} </Typography>
+                                        </>
+                                    )
+                                })
+                            }
+                        </CardContent>
+                        </Card>:
+                        <CardContent className={classes.cardContent}>
+                            <Typography gutterBottom variant="h5" component="h5">You didn't upload yet!</Typography>
+                        </CardContent>
+
+
+                    }
+                    
 
                    
                 </Grid>
@@ -137,4 +144,4 @@ const Products = ()=>{
 
 
 
-export default Products;
+export default Profile;

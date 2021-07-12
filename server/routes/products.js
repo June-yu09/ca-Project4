@@ -1,6 +1,11 @@
 const express = require('express');
 const Product = require('../model/productsModel');
+const User = require('../model/usersModel');
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+
 const router = express.Router();
+
 
 
 router.get('/all', (req,res)=>{
@@ -13,6 +18,21 @@ router.get('/all', (req,res)=>{
         }
     })
 } )
+router.get('/usersall', passport.authenticate('jwt', { session: false }), (req, res) => {
+    User
+    .findById(req.user.id)
+    .populate('products')
+    .exec((err, user)=>{
+        if(err){
+            res.status(404).send(err);
+        } else {
+            console.log(user.products);
+            res.send(user.products);
+        }
+
+    })
+})
+
 
 router.get('/detail/:id', (req,res)=>{
     const productId = req.params.id;
@@ -27,22 +47,26 @@ router.get('/detail/:id', (req,res)=>{
     })
 } )
 
-router.post('/', (req,res)=>{
+router.post('/',async (req,res)=>{
     const { title, desc, price, uploader } = req.body;
+    let theUser =await User.findById(uploader);
     const newProduct = new Product({
         title: title,
         desc: desc,
         price: price,
-        uploader: uploader
+        uploader: theUser._id,
     })
-    newProduct
+    const newItem = await newProduct.save();
+    await theUser.products.push(newItem);
+    
+    theUser
     .save()
     .then(result=>{
+        console.log(result);
         res.send(result);
     })
-    .catch(err=>{
-        res.send(err);
-    })
+    .catch(err=>console.log(err))
+    
 })
 
 module.exports = router;

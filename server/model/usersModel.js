@@ -14,6 +14,10 @@ const userSchema = new Schema({
     },
     password: String,
     city: String,
+    isLoggedIn: {
+        type: Boolean,
+        default: true
+    },
     products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
 }, {
     collection: 'users'

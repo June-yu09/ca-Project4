@@ -26,7 +26,7 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req,re
         if (err){
             res.status(404).json({ error: 'User does not exist' })
         } else {
-            console.log(user.email);
+            console.log('rendering...');
             res.send(user);
         }
     })
