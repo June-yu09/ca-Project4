@@ -11,8 +11,7 @@ import Upload from './screen/Upload';
 import Profile from './screen/Profile';
 import TokenProvider from './context/tokenContext';
 import UserProvider from './context/userContext';
-
-
+import ProductProvider from './context/productContext';
 
 
 
@@ -25,6 +24,7 @@ function App() {
     <>
     <TokenProvider>
     <UserProvider>
+    <ProductProvider>
       <CssBaseline />
       <Nav />
 
@@ -37,6 +37,7 @@ function App() {
       <Route exact path='/profile' component={Profile} />
 
       </Switch>
+    </ProductProvider>
     </UserProvider>
     </TokenProvider>
     </>

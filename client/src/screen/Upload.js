@@ -9,6 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { NavLink, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../context/userContext.js';
+import { ProductContext } from '../context/productContext.js'
 
 
 
@@ -51,8 +52,13 @@ class Upload extends Component {
         return (
             <UserContext.Consumer>
                 {
-                    user => {
-                        return(
+                    user => (
+                        <ProductContext.Consumer>
+                            {
+                                (products, userProduct, setUpdated) =>
+                        
+                        {
+                            return(
                             <Container component="main" maxWidth="xs">
                             <CssBaseline />
                             {
@@ -70,6 +76,12 @@ class Upload extends Component {
                                                 .then(response=>{
                                                     console.log(response);
                                                     console.log('user?:', user);
+                                                    console.log(products, 'products...');
+                                                    console.log(userProduct, 'userProducts...');
+                                                    setUpdated(true);
+                                                    console.log(products, 'products...');
+                                                    console.log(userProduct, 'userProducts...');
+
                                                 })
                                                 .catch(err=>console.log(err))
                                             
@@ -133,9 +145,11 @@ class Upload extends Component {
                                 </div>
                             }
 
-                            </Container>
-                        )
-                    }
+                            </Container>)
+                            }
+                        }
+                    </ProductContext.Consumer>
+                    )
                 }
             
             </UserContext.Consumer>

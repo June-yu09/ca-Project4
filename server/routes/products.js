@@ -14,6 +14,7 @@ router.get('/all', (req,res)=>{
         if(err){
             res.send(err);
         }else{
+            console.log("products are ...",products);
             res.send(products);
         }
     })

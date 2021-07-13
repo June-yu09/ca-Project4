@@ -13,7 +13,8 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { useUser, useUserProducts } from '../context/userContext';
+import { useUser } from '../context/userContext';
+import { useProduct } from '../context/productContext';
 import { useToken } from '../context/tokenContext';
 
 
@@ -62,7 +63,7 @@ const Profile = ()=>{
     
     const user = useUser();
     const token = useToken();
-    const products = useUserProducts();
+    const { userProduct } = useProduct();
 
     return (<>
         <CssBaseline />
@@ -101,21 +102,26 @@ const Profile = ()=>{
                     </>
                     }
                     {
-                        (token && user && products) ?
+                        (userProduct) ?
                         <Card className={classes.card}>
 
                         <CardContent className={classes.cardContent}>
                             <Typography gutterBottom variant="h5" component="h5">Uploaded Products</Typography>
                             {
-                                products.map(product=>{
+                                userProduct.map(product=>{
                                     return(
                                         <>
+                                        <Card className={classes.card}>
+
                                         <Typography gutterBottom variant="h5" component="h3">title: {product.title} </Typography>
                                         <Typography gutterBottom variant="h5" component="h3">price: {product.price} $ </Typography>
                                         <Typography gutterBottom variant="h5" component="h3">description: {product.desc} </Typography>
+                                        </Card>
+                                        <br></br>
                                         </>
                                     )
                                 })
+                                //BUG after upload when I come to this page, I cannot see the change
                             }
                         </CardContent>
                         </Card>:
