@@ -17,6 +17,7 @@ function TokenProvider({ children }) {
         localStorage.setItem('token',a);
         setToken(localStorage.getItem('token'));
     }
+    console.log('token token')
 
     return (
         <div>

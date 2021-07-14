@@ -48,7 +48,7 @@ router.get('/detail/:id', (req,res)=>{
     })
 } )
 
-router.post('/',async (req,res)=>{
+router.post('/upload',async (req,res)=>{
     const { title, desc, price, uploader } = req.body;
     let theUser =await User.findById(uploader);
     const newProduct = new Product({

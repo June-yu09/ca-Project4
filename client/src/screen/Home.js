@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -58,8 +58,11 @@ const useStyles = makeStyles((theme) => ({
 const Home = ()=>{
     
     let classes = useStyles();
-    const { products } = useProduct();
+    const { products, updateProducts } = useProduct();
 
+    useEffect(()=>{
+        updateProducts();
+    },[]);
 
     return (<>
         <CssBaseline />
@@ -109,11 +112,11 @@ const Home = ()=>{
                                             
                         
                                             <CardContent className={classes.cardContent}>
-                                                <Typography gutterBottom variant="h5" component="h2">title {title} </Typography>
-                                                <Typography>desc { desc } </Typography>
-                                                <Typography>uploader { uploader } </Typography>
+                                                <Typography gutterBottom variant="h5" component="h2">{title} </Typography>
+                                                <Typography>▪️ { desc } </Typography>
+                                                <Typography>▪️ { uploader } </Typography>
                         
-                                                <Typography>price {price}$ </Typography>
+                                                <Typography>▪️ {price}$ </Typography>
                                             </CardContent>
                         
                                             <CardActions>

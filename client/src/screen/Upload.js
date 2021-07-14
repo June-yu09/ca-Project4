@@ -55,7 +55,7 @@ class Upload extends Component {
                     user => (
                         <ProductContext.Consumer>
                             {
-                                (products, userProduct, setUpdated) =>
+                                (products, userProduct, updateProducts) =>
                         
                         {
                             return(
@@ -72,16 +72,11 @@ class Upload extends Component {
                                         <form onSubmit={
                                             e =>{
                                                 e.preventDefault();
-                                                axios.post('http://localhost:5000/products', {...this.state, uploader: user._id})
+                                                axios.post('http://localhost:5000/products/upload', {...this.state, uploader: user._id})
                                                 .then(response=>{
                                                     console.log(response);
                                                     console.log('user?:', user);
-                                                    console.log(products, 'products...');
-                                                    console.log(userProduct, 'userProducts...');
-                                                    setUpdated(true);
-                                                    console.log(products, 'products...');
-                                                    console.log(userProduct, 'userProducts...');
-
+                                                
                                                 })
                                                 .catch(err=>console.log(err))
                                             

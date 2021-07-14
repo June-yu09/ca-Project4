@@ -12,7 +12,6 @@ const ProductProvider = ({ children }) => {
     const [ userProduct, setUserProduct ] = useState();
     const [ updated, setUpdated ] = useState(false);
 
-
     useEffect(()=>{
         axios.get('http://localhost:5000/products/all')
             .then(response=>{
@@ -32,11 +31,15 @@ const ProductProvider = ({ children }) => {
             })
             .catch(err=>console.log(err))
     },[updated]);
+
+    const updateProducts = () => {
+        setUpdated(!updated);
+    }
     
 
     return (
         <div>
-            <ProductContext.Provider value={{ products, userProduct, setUpdated }}>
+            <ProductContext.Provider value={{ products, userProduct, updateProducts }}>
                 { children }
             </ProductContext.Provider>
             

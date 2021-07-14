@@ -63,7 +63,11 @@ const Profile = ()=>{
     
     const user = useUser();
     const token = useToken();
-    const { userProduct } = useProduct();
+    const { userProduct, updateProducts } = useProduct();
+
+    useEffect(()=>{
+        updateProducts();
+    }, []);
 
     return (<>
         <CssBaseline />
@@ -102,7 +106,7 @@ const Profile = ()=>{
                     </>
                     }
                     {
-                        (userProduct) ?
+                        (userProduct && user) ?
                         <Card className={classes.card}>
 
                         <CardContent className={classes.cardContent}>
@@ -113,9 +117,9 @@ const Profile = ()=>{
                                         <>
                                         <Card className={classes.card}>
 
-                                        <Typography gutterBottom variant="h5" component="h3">title: {product.title} </Typography>
-                                        <Typography gutterBottom variant="h5" component="h3">price: {product.price} $ </Typography>
-                                        <Typography gutterBottom variant="h5" component="h3">description: {product.desc} </Typography>
+                                        <Typography gutterBottom variant="h5" component="h3">{product.title} </Typography>
+                                        <Typography gutterBottom variant="h5" component="h3">▪️{product.price} $ </Typography>
+                                        <Typography gutterBottom variant="h5" component="h3">▪️{product.desc} </Typography>
                                         </Card>
                                         <br></br>
                                         </>
@@ -126,7 +130,7 @@ const Profile = ()=>{
                         </CardContent>
                         </Card>:
                         <CardContent className={classes.cardContent}>
-                            <Typography gutterBottom variant="h5" component="h5">You didn't upload yet!</Typography>
+                            <Typography gutterBottom variant="h5" component="h5">❓</Typography>
                         </CardContent>
 
 
