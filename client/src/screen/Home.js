@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Home = ()=>{
-    
+    let history = useHistory();
     let classes = useStyles();
     const { products, updateProducts } = useProduct();
 
@@ -102,21 +102,24 @@ const Home = ()=>{
                         products &&
                         <>{
                             products.map(product =>{
-                                let { title, desc, price, uploader } = product;
+                                let { title, desc, price, uploader, _id } = product;
                                 return (
                                     <>
-                                    <Grid item xs={12} sm={6} md={4}>
+                                    <Grid item xs={12} sm={6} md={4} key={uploader}>
                         
                                         <Card className={classes.card}>
                                         
                                             
                         
-                                            <CardContent className={classes.cardContent}>
+                                            <CardContent className={classes.cardContent} onClick={
+                                                ()=>
+                                                history.push(`/productdetail/${_id}`)
+                                            }>
                                                 <Typography gutterBottom variant="h5" component="h2">{title} </Typography>
-                                                <Typography>▪️ { desc } </Typography>
-                                                <Typography>▪️ { uploader } </Typography>
-                        
+                                                <Typography>▪️ { desc } </Typography>                        
                                                 <Typography>▪️ {price}$ </Typography>
+                                                <Typography>ProductId {_id}$ </Typography>
+
                                             </CardContent>
                         
                                             <CardActions>

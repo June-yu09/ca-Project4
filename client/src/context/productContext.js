@@ -23,8 +23,9 @@ const ProductProvider = ({ children }) => {
 
     useEffect(()=>{
         let token = "bearer " + localStorage.getItem('token');
-        axios.get('http://localhost:5000/products/usersall',
-            { headers: { "Authorization" : token } }
+        axios.post('http://localhost:5000/products/usersall',
+            { myToken : localStorage.getItem('token')},
+            { headers: { "Authorization" : token }}
             )
             .then(response=>{
                 setUserProduct(response.data);
@@ -35,11 +36,19 @@ const ProductProvider = ({ children }) => {
     const updateProducts = () => {
         setUpdated(!updated);
     }
+
+    const productDetail = (productId) => {
+        axios.get(`http://localhost:5000/products/detail/${productId}`)
+        .then(response=>{
+            return response.data;
+        })
+        .catch(err=>console.log(err))
+    }
     
 
     return (
         <div>
-            <ProductContext.Provider value={{ products, userProduct, updateProducts }}>
+            <ProductContext.Provider value={{ products, userProduct, updateProducts, productDetail }}>
                 { children }
             </ProductContext.Provider>
             

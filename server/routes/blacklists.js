@@ -39,7 +39,7 @@ router.post('/add', (req,res)=>{
     })
     .catch(err=>{
         console.log(err);
-        res.status(402).send(err, 'failed to store the token');
+        res.status(402).send(err);
     })
 
 })

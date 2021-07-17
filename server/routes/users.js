@@ -9,17 +9,6 @@ const passport = require('passport');
 const router = express.Router();
 
 
-
-router.get('/all', (req,res)=>{
-    User.find({}, (err,users)=>{
-        if(err){
-            res.send(err);
-        }else{
-            res.send(users);
-        }
-    })
-} )
-
 router.post('/'
     ,body('email').isEmail()
     ,body('password').isLength({ min: 7 })  
@@ -93,6 +82,7 @@ router.post('/login', async (req,res)=>{
         }
     })
 })
+
 
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req,res)=>{
     User

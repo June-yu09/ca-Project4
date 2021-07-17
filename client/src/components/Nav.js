@@ -9,6 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { useHistory } from 'react-router-dom';
 import { useToken, useTokenUpdate } from '../context/tokenContext.js';
 import { useUser } from '../context/userContext.js';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,7 +58,17 @@ const Nav = () => {
             <>
             <Button color="inherit" onClick={()=>{ history.push('/products/upload') }}>⬆️</Button>
             <Button color="inherit" onClick={()=>{ history.push('/profile') }}>👤</Button>
-            <Button color="inherit" onClick={()=>{updateToken('')}}>Logout</Button>
+            <Button color="inherit" onClick={()=>{
+              axios.post('http://localhost:5000/blacklists/add', { token: localStorage.getItem('token') })
+              .then(response=>{
+                console.log(response);
+                alert("logged out!");
+              })
+              .then(()=>{
+                updateToken('');
+              })
+              .catch(err=>console.log(err))
+            }}>Logout</Button>
             </>
           }
           

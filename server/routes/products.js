@@ -3,10 +3,29 @@ const Product = require('../model/productsModel');
 const User = require('../model/usersModel');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const Blacklist = require('../model/blacklistsModel');
 
 const router = express.Router();
 
-
+const middleware1 = (req,res,next)=>{
+    console.log('after I put token in the body?', req.body);
+    Blacklist
+    .findOne({ token: req.body.myToken })
+    .then(result=>{
+        console.log(result);
+        if( result === null ){
+            console.log('good access');
+            // res.send("good access");
+        }else{
+            console.log('Your token exists in our blacklist');
+            // res.send("Your token exists in our blacklist...bad access");
+        }
+    })
+    .catch(err=>{
+        res.status(404).send(err);
+    })
+    next();
+}
 
 router.get('/all', (req,res)=>{
     Product
@@ -14,12 +33,25 @@ router.get('/all', (req,res)=>{
         if(err){
             res.send(err);
         }else{
-            console.log("products are ...",products);
+            // console.log("products are ...",products);
             res.send(products);
         }
     })
-} )
-router.get('/usersall', passport.authenticate('jwt', { session: false }), (req, res) => {
+})
+
+router.post('/productdetail', (req,res)=>{
+    Product
+    .findById(req.body.productnumber, (err,product)=>{
+        if (err) {
+            res.send(err);
+        } else {
+            console.log("detail of the product");
+            res.send(product);
+        }
+    })
+})
+
+router.post('/usersall', [passport.authenticate('jwt', { session: false }), middleware1], (req, res) => {
     User
     .findById(req.user.id)
     .populate('products')
@@ -69,5 +101,8 @@ router.post('/upload',async (req,res)=>{
     .catch(err=>console.log(err))
     
 })
+
+
+
 
 module.exports = router;

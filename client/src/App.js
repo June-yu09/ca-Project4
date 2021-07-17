@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import Home from './screen/Home';
 import SignIn from './screen/SignIn';
 import SignUp from './screen/SignUp';
-import Products from './screen/Products';
+import ProductDetail from './screen/ProductDetail';
 import Upload from './screen/Upload';
 import Profile from './screen/Profile';
 import TokenProvider from './context/tokenContext';
@@ -32,7 +32,7 @@ function App() {
       <Route exact path='/' component={Home} />
       <Route exact path='/signin' component={SignIn} />
       <Route exact path='/signup' component={SignUp} />
-      <Route exact path='/products' component={Products} />
+      <Route exact path='/productdetail/:productId' component={ProductDetail} />
       <Route exact path='/products/upload' component={Upload} />
       <Route exact path='/profile' component={Profile} />
 
