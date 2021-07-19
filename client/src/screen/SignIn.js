@@ -72,7 +72,6 @@ class SignIn extends Component {
                                             e.preventDefault();
                                             axios.post('http://localhost:5000/users/login', this.state)
                                             .then(res=>{
-                                                console.log(res);
                                                 tokenUpdate(res.data.token);
                                                 userUpdate(res.data.token);
                                             })

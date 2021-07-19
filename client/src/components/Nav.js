@@ -38,7 +38,7 @@ const Nav = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title} onClick={()=>{ history.push('/') }}>
-            🍓berry Market
+            🤲🏻 2Hands Market
           </Typography>
           {
             !myToken &&

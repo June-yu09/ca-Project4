@@ -70,29 +70,12 @@ const Home = ()=>{
             <div className={classes.heroContent}>
                 <Container maxWidth="sm" >
                         <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom>
-                    Welcome to Market
+                    Welcome to 🤲🏻 2Hands Market ©
                     </Typography>
                     <Typography variant="h5" align="center" color="textSecondary" paragraph>
-                    👕👚💍🧥👛🖥💸
+                    🖐🏻 second hands items help our planet 🌏
                     </Typography>
-                    <div className={classes.heroButtons}>
-                    <Grid container spacing={2} justify="center">
-                        
-                        <Grid item>
-                        <Button variant="outlined" color="primary">
-                            Women
-                        </Button>
-                        </Grid>
-
-                        <Grid item>
-                        <Button variant="outlined" color="primary">
-                            Men
-                        </Button>
-                        </Grid>
-
-                        
-                    </Grid>
-                    </div>
+                    
                 </Container>
             </div>
             <Container className={classes.cardGrid} maxWidth="md">
@@ -118,13 +101,11 @@ const Home = ()=>{
                                                 <Typography gutterBottom variant="h5" component="h2">{title} </Typography>
                                                 <Typography>▪️ { desc } </Typography>                        
                                                 <Typography>▪️ {price}$ </Typography>
-                                                <Typography>ProductId {_id}$ </Typography>
 
                                             </CardContent>
                         
                                             <CardActions>
                                                 <Button size="small" color="primary"><Typography>💟</Typography></Button>
-                                                <Button size="small" color="primary"><Typography>🛒</Typography></Button>
                                             </CardActions>
                                         </Card>
                                     </Grid>
@@ -142,7 +123,7 @@ const Home = ()=>{
 
             <footer className={classes.footer}>
                 <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                    딸기마켓
+                🤲🏻 2Hands Market ©
                 </Typography>
             </footer>
 

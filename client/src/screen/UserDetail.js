@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -13,10 +13,8 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { useUser } from '../context/userContext';
-import { useProduct } from '../context/productContext';
-import { useToken } from '../context/tokenContext';
 import { useGetUser } from '../context/userContext';
+import { useProduct } from '../context/productContext';
 
 
 
@@ -59,19 +57,17 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 
-const Profile = ()=>{
-    let classes = useStyles();
-    
-    const token = useToken();
-    const { userProduct, updateProducts, deleteProduct } = useProduct();
-    const { getTheUser } = useGetUser();
+const UserDetail = ()=>{
+    const classes = useStyles();
+    const { userId } = useParams();
+    const { getUser } = useGetUser();
     const [ user, setUser ] = useState();
+    const history= useHistory();
 
-
-    useEffect( async ()=>{
-        updateProducts();
-        const theUser = await getTheUser();
+    useEffect( async () => {
+        const theUser = await getUser(userId);
         setUser(theUser);
+        console.log('what',theUser);
     }, []);
 
     return (<>
@@ -80,21 +76,17 @@ const Profile = ()=>{
             
             <Container className={classes.cardGrid} maxWidth="md">
                 <Grid container spacing={4}>
-                    
-                    {
-                    ( token && user ) ?
+                    { user && 
                     <>
                     <Grid item xs={12} sm={6} md={4}>
-
+                        
                         <Card className={classes.card}>
 
 
 
                             <CardContent className={classes.cardContent}>
                                 <Typography gutterBottom variant="h5" component="h5">User </Typography>
-
                                 <Typography gutterBottom variant="h5" component="h3">name: {user.name} </Typography>
-                                <Typography gutterBottom variant="h5" component="h3">email: {user.email} </Typography>
                                 <Typography gutterBottom variant="h5" component="h3">city: {user.city} </Typography>
 
                             </CardContent>
@@ -102,33 +94,24 @@ const Profile = ()=>{
                             
                         </Card>
                     </Grid>
-                    </>:
-                    <>
-                    <div className={classes.circle}>
-                    <CircularProgress />
-                    </div>
-                    <Typography component='h1' variant='h4'> Please LogIn </Typography>
-                    </>
-                    }
-                    {
-                        (userProduct && user) ?
+                    
+                    
                         <Card className={classes.card}>
 
                         <CardContent className={classes.cardContent}>
                             <Typography gutterBottom variant="h5" component="h5">Uploaded Products</Typography>
                             {
-                                userProduct.map(product=>{
+                                user.products.map(product=>{
                                     return(
                                         <>
-                                        <Card className={classes.card} key={ product._id }>
+                                        <Card className={classes.card} key={ product._id } onClick={()=>{
+                                            history.push(`/productdetail/${product._id}`);
+                                        }}>
 
                                         <Typography gutterBottom variant="h5" component="h3">{product.title} </Typography>
                                         <Typography gutterBottom variant="h5" component="h3">▪️{product.price} $ </Typography>
                                         <Typography gutterBottom variant="h5" component="h3">▪️{product.desc} </Typography>
-                                        <Button onClick={()=>{
-                                            deleteProduct(product._id);
-                                            updateProducts();
-                                        }}> ❌Delete </Button>
+                
 
                                         </Card>
                                         <br></br>
@@ -137,13 +120,11 @@ const Profile = ()=>{
                                 })
                             }
                         </CardContent>
-                        </Card>:
-                        <CardContent className={classes.cardContent}>
-                            <Typography gutterBottom variant="h5" component="h5">❓</Typography>
-                        </CardContent>
+                        </Card>
+                    </>
+                    } 
 
-
-                    }
+                    
                     
 
                    
@@ -163,4 +144,4 @@ const Profile = ()=>{
 
 
 
-export default Profile;
+export default UserDetail;

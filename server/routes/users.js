@@ -105,7 +105,6 @@ router.get('/detail/:id', (req,res)=>{
         if(err){
             res.send(err);
         }else{
-            console.log(user.products);
             res.send(user);
         }
     })

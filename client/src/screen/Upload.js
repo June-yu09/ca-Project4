@@ -9,7 +9,6 @@ import { withStyles } from "@material-ui/core/styles";
 import { NavLink, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../context/userContext.js';
-import { ProductContext } from '../context/productContext.js'
 
 
 
@@ -52,11 +51,8 @@ class Upload extends Component {
         return (
             <UserContext.Consumer>
                 {
-                    user => (
-                        <ProductContext.Consumer>
-                            {
-                                (products, userProduct, updateProducts) =>
-                        
+                    user => 
+                            
                         {
                             return(
                             <Container component="main" maxWidth="xs">
@@ -142,9 +138,9 @@ class Upload extends Component {
 
                             </Container>)
                             }
-                        }
-                    </ProductContext.Consumer>
-                    )
+                        
+                
+                    
                 }
             
             </UserContext.Consumer>

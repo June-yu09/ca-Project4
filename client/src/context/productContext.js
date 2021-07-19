@@ -37,18 +37,21 @@ const ProductProvider = ({ children }) => {
         setUpdated(!updated);
     }
 
-    const productDetail = (productId) => {
-        axios.get(`http://localhost:5000/products/detail/${productId}`)
-        .then(response=>{
-            return response.data;
-        })
+    const productDetail = async (productId) => {
+        let response = await axios.get(`http://localhost:5000/products/detail/${productId}`)
+        return response.data
+    }
+
+    const deleteProduct = (productId) => {
+        axios.get(`http://localhost:5000/products/delete/${productId}`)
+        .then(response=>console.log(response))
         .catch(err=>console.log(err))
     }
     
 
     return (
         <div>
-            <ProductContext.Provider value={{ products, userProduct, updateProducts, productDetail }}>
+            <ProductContext.Provider value={{ products, userProduct, updateProducts, productDetail, deleteProduct }}>
                 { children }
             </ProductContext.Provider>
             

@@ -70,7 +70,9 @@ router.post('/usersall', [passport.authenticate('jwt', { session: false }), midd
 router.get('/detail/:id', (req,res)=>{
     const productId = req.params.id;
     Product
-    .findById(productId, (err, product)=>{
+    .findById(productId)
+    .populate('uploader')
+    .exec((err, product)=>{
         if(err){
             res.send(err);
         }else{
@@ -78,27 +80,47 @@ router.get('/detail/:id', (req,res)=>{
             console.log(product);
         }
     })
-} )
+})
 
-router.post('/upload',async (req,res)=>{
+router.get('/delete/:id', (req, res)=>{
+    const productId = req.params.id;
+    Product
+    .deleteOne({ _id: productId }, err=>{
+        err?(res.status(404).send(err)):null;
+    })
+
+})
+
+router.post('/upload', (req,res)=>{
     const { title, desc, price, uploader } = req.body;
-    let theUser =await User.findById(uploader);
-    const newProduct = new Product({
-        title: title,
-        desc: desc,
-        price: price,
-        uploader: theUser._id,
+    console.log('whatisuploader', uploader);
+    console.log('title?', title);
+
+    User
+    .findById(uploader, async (err, user)=>{
+        if(err){
+            res.send(err);
+        }
+
+        const newProduct = new Product({
+            title: title,
+            desc: desc,
+            price: price,
+            uploader: uploader,
+        })
+        const newItem = await newProduct.save();
+        user.products.push(newItem);
+        
+        user
+        .save()
+        .then(result=>{
+            console.log(result);
+            res.send(result);
+        })
+        .catch(err=>console.log(err))
+
     })
-    const newItem = await newProduct.save();
-    await theUser.products.push(newItem);
     
-    theUser
-    .save()
-    .then(result=>{
-        console.log(result);
-        res.send(result);
-    })
-    .catch(err=>console.log(err))
     
 })
 

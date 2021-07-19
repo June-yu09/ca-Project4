@@ -12,21 +12,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 
 import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios';
 import { useProduct } from '../context/productContext';
 
-
 const useStyles = makeStyles((theme) => ({
-    icon: {
-      marginRight: theme.spacing(2),
-    },
-    heroContent: {
-      backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(8, 0, 6),
-    },
-    heroButtons: {
-      marginTop: theme.spacing(4),
-    },
+    
     cardGrid: {
       paddingTop: theme.spacing(8),
       paddingBottom: theme.spacing(8),
@@ -60,10 +49,10 @@ const ProductDetail = ()=>{
     let { productId } = useParams();
     let [ product, setProduct ] = useState();
     let { productDetail } = useProduct();
+    let history = useHistory();
 
     useEffect( async ()=>{
       const theProduct = await productDetail(productId);
-      console.log('returned product form response.data',theProduct);
       setProduct(theProduct);
     },[])
 
@@ -76,31 +65,38 @@ const ProductDetail = ()=>{
                     
                     {
                         product &&
-                        <>{
-                            
-                                
-                                    <>
-                        
-                                        <Card className={classes.card}>
-                                        
-                                            
-                        
-                                            <CardContent className={classes.cardContent}>
-                                                <Typography gutterBottom variant="h5" component="h2">{product.title} </Typography>
-                                                <Typography>▪️ { product.desc } </Typography>                        
-                                                <Typography>▪️ { product.price }$ </Typography>
-                                                <Typography>Uploader { product.uploader }$ </Typography>
+                        <>
+        
+                          <Card className={classes.card}>
+                          
+                              
+          
+                              <CardContent className={classes.cardContent}>
+                                <Typography> 👤 <div onClick={()=>{
+                                  history.push(`/userdetail/${product.uploader._id}`);
+                                }}>{ product.uploader.name }</div> uploaded </Typography>
 
-                                            </CardContent>
-                        
-                                            <CardActions>
-                                                <Button size="small" color="primary"><Typography>💟</Typography></Button>
-                                                <Button size="small" color="primary"><Typography>🛒</Typography></Button>
-                                            </CardActions>
-                                        </Card>
-                                    </>
+                                <Typography gutterBottom variant="h5" component="h2">{product.title} </Typography>
+                                <Typography>▪️ { product.desc } </Typography>                        
+                                <Typography>▪️ { product.price }$ </Typography>
+                              </CardContent>
+          
+                              <CardActions>
+                                  <Button size="small" color="primary"><Typography>💟</Typography></Button>
+                                  <Button size="small" color="primary"><Typography>🛒</Typography></Button>
+                              </CardActions>
+                                
+                          </Card>
+                          <Card className={classes.card}>
+                            <CardContent className={classes.cardContent}>
+                              <Typography>uploader1: this is good</Typography>
+                              <Typography>uploader2: I like it too</Typography>
+                              <Typography>uploader1: I'll buy this</Typography>
+                            </CardContent>
+                          </Card>
+                      
                             
-                        }</>
+                        </>
 
                     }
                     
@@ -110,7 +106,7 @@ const ProductDetail = ()=>{
 
             <footer className={classes.footer}>
                 <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                    딸기마켓
+                    🤲🏻 2Hands Market ©
                 </Typography>
             </footer>
 
