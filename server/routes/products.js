@@ -33,7 +33,6 @@ router.get('/all', (req,res)=>{
         if(err){
             res.send(err);
         }else{
-            // console.log("products are ...",products);
             res.send(products);
         }
     })
@@ -93,8 +92,6 @@ router.get('/delete/:id', (req, res)=>{
 
 router.post('/upload', (req,res)=>{
     const { title, desc, price, uploader } = req.body;
-    console.log('whatisuploader', uploader);
-    console.log('title?', title);
 
     User
     .findById(uploader, async (err, user)=>{
