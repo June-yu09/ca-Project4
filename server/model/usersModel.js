@@ -14,7 +14,8 @@ const userSchema = new Schema({
     },
     password: String,
     city: String,
-    products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
+    products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
 }, {
     collection: 'users'
 })

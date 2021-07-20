@@ -6,7 +6,9 @@ const commentSchema = new Schema({
         type: String,
         required: true,
     },
-    
+    productId: {
+        type: String
+    },
     uploader: { type: mongoose.Schema.Types.ObjectId , ref: 'User'}
 }, { 
     timestamps: true,

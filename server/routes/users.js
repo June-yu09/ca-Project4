@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../model/usersModel');
+const Product = require('../model/productsModel');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const key = require('../keys').secretKey;
@@ -110,5 +111,36 @@ router.get('/detail/:id', (req,res)=>{
     })
 })
 
+router.post('/addfavorite', (req,res)=>{
+    const { productId, userId } = req.body;
+    User
+    .findById(userId, (err, user)=>{
+        if(err){
+            res.send(400).send(err);
+        }
+        Product
+        .findById(productId, (err, product)=>{
+            if(err){
+                res.send(400).send(err);
+            }
+            user.favorites.push(product);
+            user.save();
+            res.send('favorite is added');
+        })
+    })
+})
+
+router.post('/deletefavorite', (req,res)=>{
+    const { productId, userId } = req.body;
+    User
+    .findById(userId, (err, user)=>{
+        if(err){
+            res.send(400).send(err);
+        }
+        user.favorites.pull(productId);
+        user.save();
+        res.send('deleted from favorites');
+    })
+})
 
 module.exports = router;

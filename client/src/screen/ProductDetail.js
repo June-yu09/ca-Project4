@@ -48,14 +48,16 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductDetail = ()=>{
     let classes = useStyles();
+    let history = useHistory();
+
     let { productId } = useParams();
     let [ product, setProduct ] = useState();
     let { productDetail } = useProduct();
-    let history = useHistory();
+    let { getTheUser } = useGetUser();
+
     let [ comment, setComment ] = useState();
     let [ allComments, setAllComments ] = useState();
     let [ buttonToggle, setButton ] = useState(false);
-    let { getTheUser } = useGetUser();
     let [ user, setUser ] = useState();
 
     useEffect( async ()=>{
@@ -63,7 +65,7 @@ const ProductDetail = ()=>{
       setUser(theUser);
       const theProduct = await productDetail(productId);
       setProduct(theProduct);
-      axios.get('http://localhost:5000/comments/all')
+      axios.get(`http://localhost:5000/comments/${productId}`)
       .then(response=>{
         setAllComments(response.data);
       })
@@ -71,7 +73,7 @@ const ProductDetail = ()=>{
 
     let handleSubmit = e => {
       e.preventDefault();
-      axios.post('http://localhost:5000/comments/create', { desc: comment, uploader: user._id })
+      axios.post('http://localhost:5000/comments/create', { desc: comment, uploader: user._id, productId: product._id })
       .then(response=>console.log(response))
     }
 
@@ -91,19 +93,44 @@ const ProductDetail = ()=>{
                               
           
                               <CardContent className={classes.cardContent}>
-                                <Typography> 👤 <div onClick={()=>{
+                                <Typography onClick={()=>{
                                   history.push(`/userdetail/${product.uploader._id}`);
-                                }}>{ product.uploader.name }</div> uploaded </Typography>
+                                }}> 👤{ product.uploader.name } </Typography>
 
                                 <Typography gutterBottom variant="h5" component="h2">{product.title} </Typography>
                                 <Typography>▪️ { product.desc } </Typography>                        
                                 <Typography>▪️ { product.price }$ </Typography>
+
                               </CardContent>
-          
-                              <CardActions>
-                                  <Button size="small" color="primary"><Typography>💟</Typography></Button>
-                                  <Button size="small" color="primary"><Typography>🛒</Typography></Button>
-                              </CardActions>
+                              {
+                                user && (
+                                  user.favorites.includes(product._id) ?
+                                  (
+                                    <>
+                                    <CardActions>
+                                      <Button size="small" color="primary" onClick={()=>{
+                                        axios.post("http://localhost:5000/users/deletefavorite", { productId: product._id, userId: user._id })
+                                        .then(response=>console.log(response))
+                                        setButton(!buttonToggle);
+                                      }} ><Typography>💖</Typography></Button>
+                                    </CardActions>
+                                    </>
+                                  ):
+                                  (
+                                    <>
+                                    <CardActions>
+                                      <Button size="small" color="primary" onClick={()=>{
+                                        axios.post("http://localhost:5000/users/addfavorite", { productId: product._id, userId: user._id })
+                                        .then(response=>console.log(response))
+                                        setButton(!buttonToggle);
+                                      }} ><Typography>🤍</Typography></Button>
+                                    </CardActions>
+                                    </>
+                                  )
+                                )
+                              }
+                              
+                              
                                 
                           </Card>
                           {
@@ -113,6 +140,16 @@ const ProductDetail = ()=>{
                                 <CardContent className={classes.cardContent} key={aComment._id}>
                                   <Typography> { aComment.uploader.name } : </Typography>
                                   <Typography> { aComment.desc } </Typography>
+                                  <Button size="small" color="primary" onClick={()=>{
+                                    const commentId = aComment._id;
+                                    axios.get(`http://localhost:5000/comments/delete/${commentId}`)
+                                    .then(response=>console.log(response, 'deleted successfully'))
+                                    .catch(err=>console.log(err))
+                                    setButton(!buttonToggle);
+
+                                  }}>❌Delete</Button>
+
+
                                 </CardContent>
 
                                 )
@@ -125,6 +162,7 @@ const ProductDetail = ()=>{
                           <form onSubmit={e=>{
                             handleSubmit(e);
                             setButton(!buttonToggle);
+                            setComment('');
                           }}>
                             <label>comment</label>
                             <br />
