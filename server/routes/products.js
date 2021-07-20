@@ -81,11 +81,23 @@ router.get('/detail/:id', (req,res)=>{
     })
 })
 
-router.get('/delete/:id', (req, res)=>{
-    const productId = req.params.id;
+router.post('/delete', (req, res)=>{
+    const { productId, userId } = req.body;
     Product
     .deleteOne({ _id: productId }, err=>{
-        err?(res.status(404).send(err)):null;
+        if(err){
+            res.sendStatus(404);
+        }
+        User
+        .findById(userId, (err, user)=>{
+            if(err){
+                res.sendStatus(400);
+            }
+            user.products.pull(productId);
+            user.save();
+            res.send('product is deleted');
+        })
+
     })
 
 })

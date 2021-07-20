@@ -58,6 +58,8 @@ const Nav = () => {
             <>
             <Button color="inherit" onClick={()=>{ history.push('/products/upload') }}>⬆️</Button>
             <Button color="inherit" onClick={()=>{ history.push('/profile') }}>👤</Button>
+            <Button color="inherit" onClick={()=>{ history.push('/favorites') }}>💕</Button>
+
             <Button color="inherit" onClick={()=>{
               axios.post('http://localhost:5000/blacklists/add', { token: localStorage.getItem('token') })
               .then(response=>{

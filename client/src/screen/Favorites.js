@@ -15,6 +15,7 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import { useGetUser } from '../context/userContext';
 import { useProduct } from '../context/productContext';
+import axios from 'axios';
 
 
 
@@ -57,20 +58,18 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 
-const UserDetail = ()=>{
+const Favorites = ()=>{
     const classes = useStyles();
     const history= useHistory();
 
-    const { userId } = useParams();
-    const { getUser } = useGetUser();
-    
+    const { getTheUser } = useGetUser();
     const [ user, setUser ] = useState();
+    const [ toggleButton, setToggle ] = useState(false);
 
     useEffect( async () => {
-        const theUser = await getUser(userId);
+        const theUser = await getTheUser();
         setUser(theUser);
-        console.log('what',theUser);
-    }, []);
+    }, [toggleButton]);
 
     return (<>
         <CssBaseline />
@@ -87,10 +86,7 @@ const UserDetail = ()=>{
 
 
                             <CardContent className={classes.cardContent}>
-                                <Typography gutterBottom variant="h5" component="h5">User </Typography>
-                                <Typography gutterBottom variant="h5" component="h3">name: {user.name} </Typography>
-                                <Typography gutterBottom variant="h5" component="h3">city: {user.city} </Typography>
-
+                                <Typography gutterBottom variant="h5" component="h5">🛍 My Favorites 🛍</Typography>
                             </CardContent>
 
                             
@@ -100,28 +96,34 @@ const UserDetail = ()=>{
                     
                         <Card className={classes.card}>
 
-                        <CardContent className={classes.cardContent}>
-                            <Typography gutterBottom variant="h5" component="h5">Uploaded Products</Typography>
                             {
-                                user.products.map(product=>{
+                                user.favorites && 
+                                (user.favorites.map(favorite=>{
+                                    console.log(favorite);
                                     return(
                                         <>
-                                        <Card className={classes.card} key={ product._id } onClick={()=>{
-                                            history.push(`/productdetail/${product._id}`);
+                                        <CardContent className={classes.cardContent} key={ favorite._id } onClick={()=>{
+                                            history.push(`/productdetail/${favorite._id}`);
                                         }}>
+                                        <Typography gutterBottom variant="h5" component="h3">{favorite.title} </Typography>
+                                        <Typography gutterBottom variant="h5" component="h3">▪️{favorite.price} $ </Typography>
+                                        <Typography gutterBottom variant="h5" component="h3">▪️{favorite.desc} </Typography>
+                                        </CardContent>
 
-                                        <Typography gutterBottom variant="h5" component="h3">{product.title} </Typography>
-                                        <Typography gutterBottom variant="h5" component="h3">▪️{product.price} $ </Typography>
-                                        <Typography gutterBottom variant="h5" component="h3">▪️{product.desc} </Typography>
-                
+                                        <CardActions>
+                                            <Button size="small" color="primary" onClick={()=>{
+                                                axios.post("http://localhost:5000/users/deletefavorite", { productId: favorite._id, userId: user._id })
+                                                .then(response=>console.log(response))
+                                                setToggle(!toggleButton);
+                                            }}><Typography>❌</Typography></Button>
+                                        </CardActions>
 
-                                        </Card>
                                         <br></br>
                                         </>
                                     )
                                 })
+                                )
                             }
-                        </CardContent>
                         </Card>
                     </>
                     } 
@@ -146,4 +148,4 @@ const UserDetail = ()=>{
 
 
 
-export default UserDetail;
+export default Favorites;

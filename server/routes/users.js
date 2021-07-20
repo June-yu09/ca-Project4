@@ -87,7 +87,10 @@ router.post('/login', async (req,res)=>{
 
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req,res)=>{
     User
-    .findById(req.user.id, (err, user)=>{
+    .findById(req.user.id)
+    .populate('products')
+    .populate('favorites')
+    .exec((err, user)=>{
         if (err){
             res.status(404).json({ error: 'User does not exist' })
         } else {
@@ -102,6 +105,7 @@ router.get('/detail/:id', (req,res)=>{
     User
     .findById(userId)
     .populate('products')
+    .populate('favorites')
     .exec((err,user)=>{
         if(err){
             res.send(err);

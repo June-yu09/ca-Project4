@@ -42,8 +42,8 @@ const ProductProvider = ({ children }) => {
         return response.data
     }
 
-    const deleteProduct = (productId) => {
-        axios.get(`http://localhost:5000/products/delete/${productId}`)
+    const deleteProduct = (productId, userId) => {
+        axios.post('http://localhost:5000/products/delete', { productId: productId, userId: userId })
         .then(response=>console.log(response))
         .catch(err=>console.log(err))
     }

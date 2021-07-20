@@ -61,12 +61,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Profile = ()=>{
     let classes = useStyles();
-    
     const token = useToken();
     const { userProduct, updateProducts, deleteProduct } = useProduct();
     const { getTheUser } = useGetUser();
     const [ user, setUser ] = useState();
-
 
     useEffect( async ()=>{
         updateProducts();
@@ -126,7 +124,7 @@ const Profile = ()=>{
                                         <Typography gutterBottom variant="h5" component="h3">▪️{product.price} $ </Typography>
                                         <Typography gutterBottom variant="h5" component="h3">▪️{product.desc} </Typography>
                                         <Button onClick={()=>{
-                                            deleteProduct(product._id);
+                                            deleteProduct(product._id, user._id);
                                             updateProducts();
                                         }}> ❌Delete </Button>
 

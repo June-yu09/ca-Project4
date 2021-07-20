@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Nav from './components/Nav';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -10,9 +10,11 @@ import ProductDetail from './screen/ProductDetail';
 import Upload from './screen/Upload';
 import Profile from './screen/Profile';
 import UserDetail from './screen/UserDetail';
+import Favorites from './screen/Favorites';
 import TokenProvider from './context/tokenContext';
 import UserProvider from './context/userContext';
 import ProductProvider from './context/productContext';
+
 
 
 
@@ -37,6 +39,8 @@ function App() {
       <Route exact path='/products/upload' component={Upload} />
       <Route exact path='/profile' component={Profile} />
       <Route exact path='/userdetail/:userId' component={UserDetail} />
+      <Route exact path='/favorites' component={Favorites} />
+
 
 
       </Switch>
