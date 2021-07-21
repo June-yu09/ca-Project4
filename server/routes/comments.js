@@ -19,6 +19,20 @@ router.post('/create', (req,res)=>{
     .catch(err=>res.status(400).send(err))
 })
 
+router.post('/update', (req,res)=>{
+    const { newDesc, commentId } = req.body;
+    console.log('newDesc and id', newDesc, commentId);
+    Comment
+    .findById(commentId, (err,comment)=>{
+        if(err){
+            res.sendStatus(404);
+        }
+        comment.desc = newDesc;
+        comment.save();
+        res.send('modified successfully');
+    })
+})
+
 router.get('/:id', (req,res)=>{
     const product = req.params.id;
     Comment
