@@ -14,7 +14,8 @@ const productSchema = new Schema({
         type: Number,
         required: true,
     },
-    uploader: { type: mongoose.Schema.Types.ObjectId , ref: 'User'}
+    uploader: { type: mongoose.Schema.Types.ObjectId , ref: 'User'},
+    image: String
 }, { 
     timestamps: true,
     collection: 'products'

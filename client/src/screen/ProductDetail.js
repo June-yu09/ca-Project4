@@ -62,12 +62,15 @@ const ProductDetail = ()=>{
     let [ user, setUser ] = useState();
     let [ modifyId, setModifyId ] = useState([]);
     let [ showFavorite, setFavorite ] = useState(true);
+    let [ paintingUrl, setPainting ] = useState('');
 
     useEffect( async ()=>{
       const theUser = await getTheUser();
       setUser(theUser);
       const theProduct = await productDetail(productId);
       setProduct(theProduct);
+      setPainting('http://localhost:5000/products/images/'+theProduct.image);
+
       axios.get(`http://localhost:5000/comments/${productId}`)
       .then(response=>{
         setAllComments(response.data);
@@ -114,6 +117,7 @@ const ProductDetail = ()=>{
                                 <Typography onClick={()=>{
                                   history.push(`/userdetail/${product.uploader._id}`);
                                 }}> 👤{ product.uploader.name } </Typography>
+                                <img src={paintingUrl} />
 
                                 <Typography gutterBottom variant="h5" component="h2">{product.title} </Typography>
                                 <Typography>▪️ { product.desc } </Typography>                        

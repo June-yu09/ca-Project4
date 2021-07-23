@@ -4,6 +4,12 @@ const User = require('../model/usersModel');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const Blacklist = require('../model/blacklistsModel');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' })
+const { uploadFile, getFileStream } = require('../s3.js');
+const fs = require('fs');
+const util = require('util');
+const unlinkFile = util.promisify(fs.unlink);
 
 const router = express.Router();
 
@@ -26,6 +32,12 @@ const middleware1 = (req,res,next)=>{
     })
     next();
 }
+
+router.get('/images/:key', (req,res)=>{
+    const key = req.params.key;
+    const readStream = getFileStream(key);
+    readStream.pipe(res);
+})
 
 router.get('/all', (req,res)=>{
     Product
@@ -102,9 +114,12 @@ router.post('/delete', (req, res)=>{
 
 })
 
-router.post('/upload', (req,res)=>{
+router.post('/upload', upload.single('productImage') , async (req,res)=>{
     const { title, desc, price, uploader } = req.body;
-
+    const file = req.file;
+    const result = await uploadFile(file);
+    const imagePath = await result.Key;
+    await unlinkFile(file.path);
     User
     .findById(uploader, async (err, user)=>{
         if(err){
@@ -116,6 +131,7 @@ router.post('/upload', (req,res)=>{
             desc: desc,
             price: price,
             uploader: uploader,
+            image: imagePath
         })
         const newItem = await newProduct.save();
         user.products.push(newItem);
@@ -123,7 +139,6 @@ router.post('/upload', (req,res)=>{
         user
         .save()
         .then(result=>{
-            console.log(result);
             res.send(result);
         })
         .catch(err=>console.log(err))

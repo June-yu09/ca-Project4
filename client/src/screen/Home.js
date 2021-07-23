@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -59,6 +59,7 @@ const Home = ()=>{
     let history = useHistory();
     let classes = useStyles();
     const { products, updateProducts } = useProduct();
+    const [ paintingUrl, setPainting ] = useState('');
 
     useEffect(()=>{
         updateProducts();
@@ -84,7 +85,7 @@ const Home = ()=>{
                     {
                         products &&
                         <>{
-                            products.map(product =>{
+                            products.map( product => {
                                 let { title, desc, price, uploader, _id } = product;
                                 return (
                                     <>
@@ -95,9 +96,10 @@ const Home = ()=>{
                                             
                         
                                             <CardContent className={classes.cardContent} onClick={
-                                                ()=>
-                                                history.push(`/productdetail/${_id}`)
-                                            }>
+                                                ()=> history.push(`/productdetail/${_id}`)}>
+                                                
+                                                <img src={'http://localhost:5000/products/images/'+product.image} />
+                                                    
                                                 <Typography gutterBottom variant="h5" component="h2">{title} </Typography>
                                                 <Typography>▪️ { desc } </Typography>                        
                                                 <Typography>▪️ {price}$ </Typography>
