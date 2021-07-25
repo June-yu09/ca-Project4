@@ -105,6 +105,7 @@ const Favorites = ()=>{
                                         <CardContent className={classes.cardContent} key={ favorite._id } onClick={()=>{
                                             history.push(`/productdetail/${favorite._id}`);
                                         }}>
+                                        <img src={'http://localhost:5000/products/images/'+favorite.image} />
                                         <Typography gutterBottom variant="h5" component="h3">{favorite.title} </Typography>
                                         <Typography gutterBottom variant="h5" component="h3">▪️{favorite.price} $ </Typography>
                                         <Typography gutterBottom variant="h5" component="h3">▪️{favorite.desc} </Typography>

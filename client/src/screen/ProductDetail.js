@@ -124,7 +124,7 @@ const ProductDetail = ()=>{
                                 <Typography>▪️ { product.price }$ </Typography>
 
                               </CardContent>
-                              {
+                              {/* {
                                 user && 
                                 <>
                                 <Button onClick={()=>{
@@ -134,7 +134,7 @@ const ProductDetail = ()=>{
                                   console.log('user.favorites.includes(product)???', user.favorites.find(i=>i._id===product._id));
                                 }}>button</Button>
                                 </>
-                              }
+                              } */}
                               {
                                 ( showFavorite &&
                                   user.favorites.find(i=>i._id===product._id)) &&
@@ -188,46 +188,55 @@ const ProductDetail = ()=>{
                                 return (
                                 <CardContent className={classes.cardContent} key={aComment._id}>
                                   <Typography> { aComment.uploader.name } : </Typography>
-                                  {
-                                    !modifyId.includes(aComment._id) &&
-                                    <>
-                                    <Typography> { aComment.desc } </Typography>
-                                    <Button size="small" color="primary" onClick={()=>{
-                                      const commentId = aComment._id;
-                                      axios.get(`http://localhost:5000/comments/delete/${commentId}`)
-                                      .then(response=>console.log(response, 'deleted successfully'))
-                                      .catch(err=>console.log(err))
-                                      setButton(!buttonToggle);
-
-                                    }}>❌Delete</Button>
-                                    <Button size="small" color="primary" onClick={()=>{
-                                      setComment2(aComment.desc);
-                                      setModifyId([...modifyId, aComment._id]);
-                                      setButton(!buttonToggle);
-                                    }}>❗️Modify</Button>
-                                    </>
-                                  }
 
                                   {
-                                    modifyId.includes(aComment._id) &&
-                                    <>
-
-                                      <form onSubmit={e=>{
-                                        handleModifySubmit(e, aComment._id);
-                                        setModifyId(modifyId.filter(item=>item!==aComment._id));
+                                    aComment.uploader._id === user._id ? (<>
+                                    {
+                                      !modifyId.includes(aComment._id) &&
+                                      <>
+                                      <Typography> { aComment.desc } </Typography>
+                                      <Button size="small" color="primary" onClick={()=>{
+                                        const commentId = aComment._id;
+                                        axios.get(`http://localhost:5000/comments/delete/${commentId}`)
+                                        .then(response=>console.log(response, 'deleted successfully'))
+                                        .catch(err=>console.log(err))
                                         setButton(!buttonToggle);
-                                        setComment2('');
-                                      }}>
-                                        <br />
-                                        <input name='comment2' type='text' value={comment2} onChange={e=>{
-                                          setComment2(e.target.value);
-                                        }} />
-                                        <button>Modify</button>
 
-                                      </form>
+                                      }}>❌Delete</Button>
+                                      <Button size="small" color="primary" onClick={()=>{
+                                        setComment2(aComment.desc);
+                                        setModifyId([...modifyId, aComment._id]);
+                                        setButton(!buttonToggle);
+                                      }}>❗️Modify</Button>
+                                      </>
+                                    }
+
+                                    {
+                                      modifyId.includes(aComment._id) &&
+                                      <>
+
+                                        <form onSubmit={e=>{
+                                          handleModifySubmit(e, aComment._id);
+                                          setModifyId(modifyId.filter(item=>item!==aComment._id));
+                                          setButton(!buttonToggle);
+                                          setComment2('');
+                                        }}>
+                                          <br />
+                                          <input name='comment2' type='text' value={comment2} onChange={e=>{
+                                            setComment2(e.target.value);
+                                          }} />
+                                          <button>Modify</button>
+
+                                        </form>
+                                      </>
+                                      
+                                    }
                                     </>
-                                    
+                                    ):
+                                    <Typography> { aComment.desc } </Typography>
+
                                   }
+                                  
                                   
 
                                   

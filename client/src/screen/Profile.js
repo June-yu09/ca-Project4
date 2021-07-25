@@ -113,12 +113,13 @@ const Profile = ()=>{
                         <Card className={classes.card}>
 
                         <CardContent className={classes.cardContent}>
-                            <Typography gutterBottom variant="h5" component="h5">Uploaded Products</Typography>
+                            <Typography gutterBottom variant="h5" component="h5">🏞Uploaded Products🌌</Typography>
                             {
                                 userProduct.map(product=>{
                                     return(
                                         <>
                                         <Card className={classes.card} key={ product._id }>
+                                        <img src={'http://localhost:5000/products/images/'+product.image} />
 
                                         <Typography gutterBottom variant="h5" component="h3">{product.title} </Typography>
                                         <Typography gutterBottom variant="h5" component="h3">▪️{product.price} $ </Typography>
