@@ -143,11 +143,7 @@ class SignUp extends Component {
                             >
                                 Sign Up
                             </Button>
-                            <Grid container justify="flex-end">
-                                <Grid item>
-                                    Already have an account? <NavLink exact to='/signin'>Sign In</NavLink>
-                                </Grid>
-                            </Grid>
+                            
 
 
                             

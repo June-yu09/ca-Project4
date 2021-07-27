@@ -21,6 +21,7 @@ const middleware1 = (req,res,next)=>{
         console.log(result);
         if( result === null ){
             console.log('good access');
+            next();
             // res.send("good access");
         }else{
             console.log('Your token exists in our blacklist');
@@ -30,7 +31,6 @@ const middleware1 = (req,res,next)=>{
     .catch(err=>{
         res.status(404).send(err);
     })
-    next();
 }
 
 router.get('/images/:key', (req,res)=>{
@@ -46,18 +46,6 @@ router.get('/all', (req,res)=>{
             res.send(err);
         }else{
             res.send(products);
-        }
-    })
-})
-
-router.post('/productdetail', (req,res)=>{
-    Product
-    .findById(req.body.productnumber, (err,product)=>{
-        if (err) {
-            res.send(err);
-        } else {
-            console.log("detail of the product");
-            res.send(product);
         }
     })
 })
@@ -93,6 +81,7 @@ router.get('/detail/:id', (req,res)=>{
     })
 })
 
+//.delete
 router.post('/delete', (req, res)=>{
     const { productId, userId } = req.body;
     Product
@@ -144,8 +133,26 @@ router.post('/upload', upload.single('productImage') , async (req,res)=>{
         .catch(err=>console.log(err))
 
     })
-    
-    
+})
+
+router.post('/update', upload.single('productImage'), async (req,res)=>{
+    const { title, desc, price, productId } = req.body;
+    const file = req.file;
+    const result = await uploadFile(file);
+    const imagePath = await result.Key;
+    await unlinkFile(file.path);
+    Product
+    .findById(productId, async (err, product)=>{
+        if(err){
+            res.send(err);
+        }
+        product.title = title;
+        product.desc = desc;
+        product.price = price;
+        product.image = imagePath;
+        product.save();
+        res.send('updated')
+    })
 })
 
 

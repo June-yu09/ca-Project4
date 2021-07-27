@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardMedia from '@material-ui/core/CardMedia';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -14,7 +11,6 @@ import Container from '@material-ui/core/Container';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useGetUser } from '../context/userContext';
-import { useProduct } from '../context/productContext';
 
 
 
@@ -39,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'column',
     },
     cardMedia: {
-      paddingTop: '100%', // 16:9
+      paddingTop: '100%',
     },
     cardContent: {
       flexGrow: 1,
@@ -109,6 +105,8 @@ const UserDetail = ()=>{
                                         <Card className={classes.card} key={ product._id } onClick={()=>{
                                             history.push(`/productdetail/${product._id}`);
                                         }}>
+                                        <img src={'http://localhost:5000/products/images/'+product.image} />
+
 
                                         <Typography gutterBottom variant="h5" component="h3">{product.title} </Typography>
                                         <Typography gutterBottom variant="h5" component="h3">▪️{product.price} $ </Typography>
@@ -135,7 +133,7 @@ const UserDetail = ()=>{
 
             <footer className={classes.footer}>
                 <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                🤲🏻 2Hands Market ©
+                🪴 Market ©
                 </Typography>
             </footer>
 

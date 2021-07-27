@@ -14,8 +14,8 @@ import Favorites from './screen/Favorites';
 import TokenProvider from './context/tokenContext';
 import UserProvider from './context/userContext';
 import ProductProvider from './context/productContext';
-
-
+import ProductUpload from './screen/ProductUpdate'
+import ProductUpdate from './screen/ProductUpdate';
 
 
 function App() {
@@ -40,6 +40,7 @@ function App() {
       <Route exact path='/profile' component={Profile} />
       <Route exact path='/userdetail/:userId' component={UserDetail} />
       <Route exact path='/favorites' component={Favorites} />
+      <Route exact path='/productupdate/:productId' component={ProductUpdate} />
 
 
 

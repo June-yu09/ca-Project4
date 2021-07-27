@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -8,8 +10,7 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from "@material-ui/core/styles";
 import axios from 'axios';
 import { useGetUser } from '../context/userContext';
-import grass from '../grass.jpeg'
-
+import { useProduct } from '../context/productContext';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -31,20 +32,29 @@ const useStyles = makeStyles((theme) => ({
       },
   }))
 
-const Upload = () => {
+const ProductUpdate = () => {
     let classes = useStyles();
     let { getTheUser } = useGetUser();
+    let { productDetail } = useProduct();
+    let { productId } = useParams();
 
+    let [ product, setProduct ] = useState();
     let [ user, setUser ] = useState();
     let [ title, setTitle ] = useState();
     let [ desc, setDesc ] = useState();
     let [ price, setPrice ] = useState();
     let [ file, setFile ] = useState();
 
+
     // handlechange 는 onChange 사용할것
     useEffect(async ()=>{
         const theUser = await getTheUser();
         setUser(theUser);
+        const theProduct = await productDetail(productId);
+        setProduct(theProduct);
+        setTitle(theProduct.title);
+        setDesc(theProduct.desc);
+        setPrice(theProduct.price);
     },[]);
         
     return (
@@ -59,7 +69,7 @@ const Upload = () => {
                 <div className={classes.paper}>
 
                 <Typography component="h1" variant="h5">
-                                Upload
+                                Product Update
                 </Typography>
                     
                         <form onSubmit={
@@ -70,9 +80,10 @@ const Upload = () => {
                                 formData.append('desc', desc);
                                 formData.append('price', price);
                                 formData.append('uploader', user._id);
+                                formData.append('productId', productId);
                                 formData.append('productImage', file);
 
-                                axios.post('http://localhost:5000/products/upload', formData)
+                                axios.post('http://localhost:5000/products/update', formData)
                                 .then(response=>{
                                     console.log(response);
                                     console.log('user?:', user);
@@ -98,7 +109,6 @@ const Upload = () => {
                                     id="title"
                                     label="Title"
                                     name="title"
-                                    autoComplete="title"
                                     value={title}
                                 />
                                 </Grid>
@@ -115,7 +125,6 @@ const Upload = () => {
                                     id="desc"
                                     label="Desc"
                                     name="desc"
-                                    autoComplete="desc"
                                     value={desc}
                                 />
                                 </Grid>
@@ -177,4 +186,4 @@ const Upload = () => {
     }
 
 
-export default Upload;
+export default ProductUpdate;

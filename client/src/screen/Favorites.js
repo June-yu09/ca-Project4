@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -14,18 +14,14 @@ import Container from '@material-ui/core/Container';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useGetUser } from '../context/userContext';
-import { useProduct } from '../context/productContext';
 import axios from 'axios';
 
 
 
 const useStyles = makeStyles((theme) => ({
-    icon: {
-      marginRight: theme.spacing(2),
-    },
     heroContent: {
-      backgroundColor: theme.palette.background.paper,
       padding: theme.spacing(8, 0, 6),
+      backgroundColor: '#A0E920'
     },
     heroButtons: {
       marginTop: theme.spacing(4),
@@ -40,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'column',
     },
     cardMedia: {
-      paddingTop: '100%', // 16:9
+      paddingTop: '100%',
     },
     cardContent: {
       flexGrow: 1,
@@ -54,11 +50,12 @@ const useStyles = makeStyles((theme) => ({
         '& > * + *': {
         marginLeft: theme.spacing(2),
     },
-    }
+    },
+    
   }))
 
 
-const Favorites = ()=>{
+const Favorites = () => {
     const classes = useStyles();
     const history= useHistory();
 
@@ -77,49 +74,45 @@ const Favorites = ()=>{
             
             <Container className={classes.cardGrid} maxWidth="md">
                 <Grid container spacing={4}>
-                    { user && 
+                    { user &&
                     <>
-                    <Grid item xs={12} sm={6} md={4}>
-                        
-                        <Card className={classes.card}>
+                        <Grid item xs={12} sm={6} md={4}>
 
-
-
-                            <CardContent className={classes.cardContent}>
-                                <Typography gutterBottom variant="h5" component="h5">🛍 My Favorites 🛍</Typography>
-                            </CardContent>
-
-                            
-                        </Card>
-                    </Grid>
-                    
+                        <div className={classes.heroContent}>
+                                        
+                            <Container maxWidth="sm" >
+                                <CardContent className={classes.cardContent}>
+                                    <Typography gutterBottom variant="h5" align="center" component="h5">{user.name}'s Favorites</Typography>
+                                </CardContent>   
+                            </Container>
+                        </div>
+                        </Grid>
                     
                         <Card className={classes.card}>
 
                             {
                                 user.favorites && 
                                 (user.favorites.map(favorite=>{
-                                    console.log(favorite);
                                     return(
                                         <>
                                         <CardContent className={classes.cardContent} key={ favorite._id } onClick={()=>{
                                             history.push(`/productdetail/${favorite._id}`);
                                         }}>
-                                        <img src={'http://localhost:5000/products/images/'+favorite.image} />
+                                        <img src={'http://localhost:5000/products/images/'+favorite.image} width={150} height={150}/>
                                         <Typography gutterBottom variant="h5" component="h3">{favorite.title} </Typography>
                                         <Typography gutterBottom variant="h5" component="h3">▪️{favorite.price} $ </Typography>
-                                        <Typography gutterBottom variant="h5" component="h3">▪️{favorite.desc} </Typography>
                                         </CardContent>
 
                                         <CardActions>
                                             <Button size="small" color="primary" onClick={()=>{
                                                 axios.post("http://localhost:5000/users/deletefavorite", { productId: favorite._id, userId: user._id })
                                                 .then(response=>console.log(response))
-                                                setToggle(!toggleButton);
+                                                .then(()=>setToggle(!toggleButton))
+                                                
                                             }}><Typography>❌</Typography></Button>
                                         </CardActions>
 
-                                        <br></br>
+                                        <hr></hr>
                                         </>
                                     )
                                 })
@@ -138,7 +131,7 @@ const Favorites = ()=>{
 
             <footer className={classes.footer}>
                 <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                🤲🏻 2Hands Market ©
+                🪴 Market ©
                 </Typography>
             </footer>
 

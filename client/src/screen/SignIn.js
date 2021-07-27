@@ -84,12 +84,7 @@ class SignIn extends Component {
                                         <TextField onChange={this.handleChange} variant="outlined" margin="normal" required fullWidth id="email" label="Email" name="email" autoComplete="email" autoFocus />
                                         <TextField onChange={this.handleChange} variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" />
                                         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>Sign In</Button>
-                                        <Grid container>
-                                            
-                                            <Grid item>
-                                                You don't have an account? <NavLink exact to='/register'>Register</NavLink>
-                                            </Grid>
-                                        </Grid>
+                                        
                                         </form>
                                 </div>
                             </Container>
