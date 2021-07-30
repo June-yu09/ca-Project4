@@ -15,9 +15,6 @@
   import ChevronRightIcon from '@material-ui/icons/ChevronRight';
   import ListItem from '@material-ui/core/ListItem';
   import ListItemText from '@material-ui/core/ListItemText';
-
-  
-
   import { useHistory } from 'react-router-dom';
   import { useToken, useTokenUpdate } from '../context/tokenContext.js';
   import { useUser } from '../context/userContext.js';
