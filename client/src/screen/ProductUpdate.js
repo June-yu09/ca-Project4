@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from 'axios';
 import { useGetUser } from '../context/userContext';
 import { useProduct } from '../context/productContext';
-import serverURL from '../../config';
+import serverURL from '../config';
 
 const useStyles = makeStyles((theme) => ({
     paper: {

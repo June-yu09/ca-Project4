@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useProduct } from '../context/productContext';
 import { useToken } from '../context/tokenContext';
 import { useGetUser } from '../context/userContext';
-import serverURL from '../../config';
+import serverURL from '../config';
 
 
 

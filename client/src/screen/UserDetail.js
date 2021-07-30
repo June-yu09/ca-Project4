@@ -10,7 +10,7 @@ import Container from '@material-ui/core/Container';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useGetUser } from '../context/userContext';
-import serverURL from '../../config';
+import serverURL from '../config';
 
 
 

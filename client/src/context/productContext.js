@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import serverURL from '../../config';
+import serverURL from '../config';
 
 export let ProductContext = React.createContext();
 

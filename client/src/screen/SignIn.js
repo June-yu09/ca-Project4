@@ -9,7 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 import axios from 'axios';
 import { TokenUpdateContext } from '../context/tokenContext';
 import { UserUpdateContext } from '../context/userContext';
-import serverURL from '../../config';
+import serverURL from '../config';
 
 
 

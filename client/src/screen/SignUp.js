@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { withStyles } from "@material-ui/core/styles";
 import axios from 'axios';
-import serverURL from '../../config';
+import serverURL from '../config';
 
 
 

@@ -14,7 +14,7 @@ import { useProduct } from '../context/productContext.js';
 import { useGetUser } from '../context/userContext';
 import axios from 'axios';
 import tree from '../tree.jpeg';
-import serverURL from '../../config';
+import serverURL from '../config';
 
 const useStyles = makeStyles((theme) => ({
     icon: {

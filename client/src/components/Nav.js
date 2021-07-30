@@ -19,7 +19,7 @@
   import { useToken, useTokenUpdate } from '../context/tokenContext.js';
   import { useUser } from '../context/userContext.js';
   import axios from 'axios';
-  import serverURL from '../../config';
+  import serverURL from '../config';
 
   const drawerWidth = 240;
   const useStyles = makeStyles((theme) => ({
