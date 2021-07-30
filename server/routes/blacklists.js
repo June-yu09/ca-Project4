@@ -1,7 +1,7 @@
 const express = require('express');
 const Blacklist = require('../model/blacklistsModel');
 const bcrypt = require('bcrypt');
-const key = process.env.secretKey;
+const key = process.env.SECRET_KEY;
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
