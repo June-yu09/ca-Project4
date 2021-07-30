@@ -3,8 +3,6 @@ import { useHistory } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import CardMedia from '@material-ui/core/CardMedia';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -15,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import { useGetUser } from '../context/userContext';
 import axios from 'axios';
+import serverURL from '../../config';
 
 
 
@@ -98,14 +97,14 @@ const Favorites = () => {
                                         <CardContent className={classes.cardContent} key={ favorite._id } onClick={()=>{
                                             history.push(`/productdetail/${favorite._id}`);
                                         }}>
-                                        <img src={'http://localhost:5000/products/images/'+favorite.image} width={150} height={150}/>
+                                        <img src={serverURL+'/products/images/'+favorite.image} width={150} height={150}/>
                                         <Typography gutterBottom variant="h5" component="h3">{favorite.title} </Typography>
                                         <Typography gutterBottom variant="h5" component="h3">▪️{favorite.price} $ </Typography>
                                         </CardContent>
 
                                         <CardActions>
                                             <Button size="small" color="primary" onClick={()=>{
-                                                axios.post("http://localhost:5000/users/deletefavorite", { productId: favorite._id, userId: user._id })
+                                                axios.post(`${serverURL}/users/deletefavorite`, { productId: favorite._id, userId: user._id })
                                                 .then(response=>console.log(response))
                                                 .then(()=>setToggle(!toggleButton))
                                                 

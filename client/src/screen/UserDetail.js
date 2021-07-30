@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useGetUser } from '../context/userContext';
+import serverURL from '../../config';
 
 
 
@@ -104,7 +105,7 @@ const UserDetail = ()=>{
                                         <Card className={classes.card} key={ product._id } onClick={()=>{
                                             history.push(`/productdetail/${product._id}`);
                                         }}>
-                                        <img src={'http://localhost:5000/products/images/'+product.image} />
+                                        <img src={serverURL+'/products/images/'+product.image} />
 
 
                                         <Typography gutterBottom variant="h5" component="h3">{product.title} </Typography>

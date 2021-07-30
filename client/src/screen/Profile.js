@@ -15,6 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useProduct } from '../context/productContext';
 import { useToken } from '../context/tokenContext';
 import { useGetUser } from '../context/userContext';
+import serverURL from '../../config';
 
 
 
@@ -95,7 +96,7 @@ const Profile = ()=>{
                                 return(
                                     
                                     <CardContent className={classes.cardContent} key={ product._id }>
-                                    <img src={'http://localhost:5000/products/images/'+product.image} width={400} height={400} />
+                                    <img src={serverURL+'/products/images/'+product.image} width={400} height={400} />
 
                                     <Typography gutterBottom variant="h5" component="h3">{product.title} </Typography>
                                     <Typography gutterBottom variant="h5" component="h3">▪️{product.price} $ </Typography>

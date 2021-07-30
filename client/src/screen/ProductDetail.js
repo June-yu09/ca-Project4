@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useProduct } from '../context/productContext';
 import { useGetUser } from '../context/userContext';
 import axios from 'axios';
+import serverURL from '../../config';
 
 const useStyles = makeStyles((theme) => ({
     
@@ -76,9 +77,9 @@ const ProductDetail = ()=>{
       setUser(theUser);
       const theProduct = await productDetail(productId);
       setProduct(theProduct);
-      setPainting('http://localhost:5000/products/images/'+theProduct.image);
+      setPainting(serverURL+'/products/images/'+theProduct.image);
 
-      axios.get(`http://localhost:5000/comments/${productId}`)
+      axios.get(`${serverURL}/comments/${productId}`)
       .then(response=>{
         setAllComments(response.data);
       })
@@ -94,14 +95,14 @@ const ProductDetail = ()=>{
 
     let handleSubmit = e => {
       e.preventDefault();
-      axios.post('http://localhost:5000/comments/create', { desc: comment, uploader: user._id, productId: product._id })
+      axios.post(`${serverURL}/comments/create`, { desc: comment, uploader: user._id, productId: product._id })
       .then(response=>console.log(response))
     }
 
     let handleModifySubmit = (e, commentId) => {
       e.preventDefault();
       console.log('new comment and commentId', comment2, commentId);
-      axios.post('http://localhost:5000/comments/update', { newDesc: comment2, commentId: commentId })
+      axios.post(`${serverURL}/comments/update`, { newDesc: comment2, commentId: commentId })
       .then(response=>console.log(response))
     }
 
@@ -142,7 +143,7 @@ const ProductDetail = ()=>{
                             <>
                             <CardActions>
                               <Button size="small" color="primary" onClick={()=>{
-                                axios.post("http://localhost:5000/users/deletefavorite", { productId: product._id, userId: user._id })
+                                axios.post(`${serverURL}/users/deletefavorite`, { productId: product._id, userId: user._id })
                                 .then(response=>console.log(response))
                                 .then(()=>{
                                   setFavorite(!showFavorite);
@@ -164,7 +165,7 @@ const ProductDetail = ()=>{
                             <>
                             <CardActions>
                               <Button size="small" color="primary" onClick={()=>{
-                                axios.post("http://localhost:5000/users/addfavorite", { productId: product._id, userId: user._id })
+                                axios.post(`${serverURL}/users/addfavorite`, { productId: product._id, userId: user._id })
                                 .then(response=>console.log(response))
                                 .then(()=>{
                                   setFavorite(!showFavorite);
@@ -197,7 +198,7 @@ const ProductDetail = ()=>{
                               <Typography> { aComment.desc } </Typography>
                               <Button size="small" color="primary" onClick={()=>{
                                 const commentId = aComment._id;
-                                axios.get(`http://localhost:5000/comments/delete/${commentId}`)
+                                axios.get(`${serverURL}/comments/delete/${commentId}`)
                                 .then(response=>console.log(response, 'deleted successfully'))
                                 .catch(err=>console.log(err))
                                 setButton(!buttonToggle);

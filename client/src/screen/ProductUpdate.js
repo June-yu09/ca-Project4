@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from 'axios';
 import { useGetUser } from '../context/userContext';
 import { useProduct } from '../context/productContext';
+import serverURL from '../../config';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -83,7 +84,7 @@ const ProductUpdate = () => {
                                 formData.append('productId', productId);
                                 formData.append('productImage', file);
 
-                                axios.post('http://localhost:5000/products/update', formData)
+                                axios.post(`${serverURL}/products/update`, formData)
                                 .then(response=>{
                                     console.log(response);
                                     console.log('user?:', user);

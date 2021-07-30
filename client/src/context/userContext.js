@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import serverURL from '../../config';
 
 export let UserContext = React.createContext();
 export let UserUpdateContext = React.createContext();
@@ -21,7 +22,7 @@ const UserProvider = ({ children }) => {
     useEffect(()=>{
         if(localStorage.getItem('token')){
             const token = "bearer " + localStorage.getItem('token');
-            axios.get("http://localhost:5000/users/profile",
+            axios.get(`${serverURL}/users/profile`,
             { headers: { "Authorization" : token } }
             )
             .then(response => {
@@ -39,7 +40,7 @@ const UserProvider = ({ children }) => {
         localStorage.setItem('token',t);
         const token = "bearer " + localStorage.getItem('token');
         console.log('User update func is called!!!');
-        axios.get("http://localhost:5000/users/profile",
+        axios.get(`${serverURL}/users/profile`,
             { headers: { "Authorization" : token } }
             )
             .then(response => {
@@ -49,7 +50,7 @@ const UserProvider = ({ children }) => {
     }
 
     const getUser = async (userId) => {
-        const response = await axios.get(`http://localhost:5000/users/detail/${userId}`);
+        const response = await axios.get(`${serverURL}/users/detail/${userId}`);
         console.log('from userContext', response.data);
         const detailUser = response.data;
         return detailUser;
@@ -57,7 +58,7 @@ const UserProvider = ({ children }) => {
 
     const getTheUser = async () => {
         const token = "bearer " + localStorage.getItem('token');
-        const response = await axios.get("http://localhost:5000/users/profile",
+        const response = await axios.get(`${serverURL}/users/profile`,
         { headers: { "Authorization" : token } }
         )
         return response.data;

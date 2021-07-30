@@ -13,7 +13,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useProduct } from '../context/productContext.js';
 import { useGetUser } from '../context/userContext';
 import axios from 'axios';
-import tree from '../tree.jpeg'
+import tree from '../tree.jpeg';
+import serverURL from '../../config';
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -104,10 +105,10 @@ const Home = ()=>{
                                                 {
                                                     product.image?
                                                     <>
-                                                    <img src={'http://localhost:5000/products/images/'+product.image} height={350} width={400} />
+                                                    <img src={serverURL+'/products/images/'+product.image} height={350} width={400} />
                                                     </>:
                                                     <>
-                                                    <img src={'http://localhost:5000/products/images/46c7789a4b05a6bb391627db7122a7de'} />
+                                                    <img src={serverURL+'/products/images/46c7789a4b05a6bb391627db7122a7de'} />
                                                     </>
                                                 }
                                                 
@@ -126,7 +127,7 @@ const Home = ()=>{
                                                         user.favorites.find(i=>i._id===product._id)?
                                                         <>
                                                         <Button size="small" color="primary" onClick={()=>{
-                                                            axios.post("http://localhost:5000/users/deletefavorite", { productId: product._id, userId: user._id })
+                                                            axios.post(`${serverURL}/users/deletefavorite`, { productId: product._id, userId: user._id })
                                                             .then(response=>console.log(response))
                                                             .then(()=>{
                                                               setButton(!buttonToggle);
@@ -135,7 +136,7 @@ const Home = ()=>{
                                                         </>:
                                                         <>
                                                         <Button size="small" color="primary" onClick={()=>{
-                                                            axios.post("http://localhost:5000/users/addfavorite", { productId: product._id, userId: user._id })
+                                                            axios.post(`${serverURL}/users/addfavorite`, { productId: product._id, userId: user._id })
                                                             .then(response=>console.log(response))
                                                             .then(()=>{
                                                               setButton(!buttonToggle);

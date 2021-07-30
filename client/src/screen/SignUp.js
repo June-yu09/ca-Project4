@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { withStyles } from "@material-ui/core/styles";
 import axios from 'axios';
+import serverURL from '../../config';
 
 
 
@@ -46,7 +47,7 @@ class SignUp extends Component {
         if(this.state.password !== this.state.confirmPassword){
             alert('Please put password correctly')
         }else{
-            axios.post('http://localhost:5000/users', this.state)
+            axios.post(`${serverURL}/users`, this.state)
             .then(response=>{
                 console.log(response);
             })

@@ -1,4 +1,4 @@
-  import React, { useState, useEffect } from 'react';
+  import React, { useState } from 'react';
   import { makeStyles, useTheme } from '@material-ui/core/styles';
   import AppBar from '@material-ui/core/AppBar';
   import Toolbar from '@material-ui/core/Toolbar';
@@ -19,6 +19,7 @@
   import { useToken, useTokenUpdate } from '../context/tokenContext.js';
   import { useUser } from '../context/userContext.js';
   import axios from 'axios';
+  import serverURL from '../../config';
 
   const drawerWidth = 240;
   const useStyles = makeStyles((theme) => ({
@@ -53,7 +54,6 @@
       display: 'flex',
       alignItems: 'center',
       padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
       ...theme.mixins.toolbar,
       justifyContent: 'flex-end',
     },
@@ -178,7 +178,7 @@
               <ListItem>
 
               <Button className={classes.menuButton} color="inherit" onClick={()=>{
-                axios.post('http://localhost:5000/blacklists/add', { token: localStorage.getItem('token') })
+                axios.post(`${serverURL}/blacklists/add`, { token: localStorage.getItem('token') })
                 .then(response=>{
                   console.log(response);
                   alert("logged out!");

@@ -8,7 +8,7 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from "@material-ui/core/styles";
 import axios from 'axios';
 import { useGetUser } from '../context/userContext';
-
+import serverURL from '../../config';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -71,7 +71,7 @@ const Upload = () => {
                                 formData.append('uploader', user._id);
                                 formData.append('productImage', file);
 
-                                axios.post('http://localhost:5000/products/upload', formData)
+                                axios.post(`${serverURL}/products/upload`, formData)
                                 .then(response=>{
                                     console.log(response);
                                     console.log('user?:', user);

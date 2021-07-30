@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import serverURL from '../../config';
 
 export let ProductContext = React.createContext();
 
@@ -13,7 +14,7 @@ const ProductProvider = ({ children }) => {
     const [ updated, setUpdated ] = useState(false);
 
     useEffect(()=>{
-        axios.get('http://localhost:5000/products/all')
+        axios.get(`${serverURL}/products/all`)
             .then(response=>{
                 setProducts(response.data);
                 console.log("get all products response.data?",response.data)
@@ -23,7 +24,7 @@ const ProductProvider = ({ children }) => {
 
     useEffect(()=>{
         let token = "bearer " + localStorage.getItem('token');
-        axios.post('http://localhost:5000/products/usersall',
+        axios.post(`${serverURL}/products/usersall`,
             { myToken : localStorage.getItem('token')},
             { headers: { "Authorization" : token }}
             )
@@ -38,12 +39,12 @@ const ProductProvider = ({ children }) => {
     }
 
     const productDetail = async (productId) => {
-        let response = await axios.get(`http://localhost:5000/products/detail/${productId}`)
+        let response = await axios.get(`${serverURL}/products/detail/${productId}`)
         return response.data
     }
 
     const deleteProduct = (productId, userId) => {
-        axios.post('http://localhost:5000/products/delete', { productId: productId, userId: userId })
+        axios.post(`${serverURL}/products/delete`, { productId: productId, userId: userId })
         .then(response=>console.log(response))
         .catch(err=>console.log(err))
     }

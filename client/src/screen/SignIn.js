@@ -9,8 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 import axios from 'axios';
 import { TokenUpdateContext } from '../context/tokenContext';
 import { UserUpdateContext } from '../context/userContext';
-
-
+import serverURL from '../../config';
 
 
 
@@ -23,7 +22,7 @@ const useStyles = (theme) => ({
   },
   
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -66,7 +65,7 @@ class SignIn extends Component {
                                         <form onSubmit={(e)=>{
                                             
                                             e.preventDefault();
-                                            axios.post('http://localhost:5000/users/login', this.state)
+                                            axios.post(`${serverURL}/users/login`, this.state)
                                             .then(res=>{
                                                 tokenUpdate(res.data.token);
                                                 userUpdate(res.data.token);
