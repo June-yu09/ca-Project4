@@ -14,7 +14,6 @@ import Favorites from './screen/Favorites';
 import TokenProvider from './context/tokenContext';
 import UserProvider from './context/userContext';
 import ProductProvider from './context/productContext';
-import ProductUpload from './screen/ProductUpdate'
 import ProductUpdate from './screen/ProductUpdate';
 
 
