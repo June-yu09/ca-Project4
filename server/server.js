@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const db = require('./keys').mongoURI;
+const db = process.env.mongoURI;
 const cors = require('cors');
 const passport = require('passport');
 
