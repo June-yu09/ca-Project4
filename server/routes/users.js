@@ -3,7 +3,7 @@ const User = require('../model/usersModel');
 const Product = require('../model/productsModel');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
-const key = require('../keys').secretKey;
+const key = process.env.secretKey;
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
